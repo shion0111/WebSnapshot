@@ -118,6 +118,12 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         
         let header: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderTitle", for: indexPath)
         
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            let name = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
+            let title = header.viewWithTag(222) as? UILabel!
+            title?.text = "| \u{00A9} 2017 Antelis Wu | "+name!+" "+version+" |"
+        }
+        
         return header
     }
     override var prefersStatusBarHidden: Bool {
