@@ -1,0 +1,363 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		84FDB4B11E8CDCDC009CD024 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FDB4B01E8CDCDC009CD024 /* AppDelegate.swift */; };
+		84FDB4B31E8CDCDC009CD024 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FDB4B21E8CDCDC009CD024 /* FirstViewController.swift */; };
+		84FDB4B81E8CDCDC009CD024 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84FDB4B61E8CDCDC009CD024 /* Main.storyboard */; };
+		84FDB4BA1E8CDCDC009CD024 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84FDB4B91E8CDCDC009CD024 /* Assets.xcassets */; };
+		84FDB4BD1E8CDCDC009CD024 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84FDB4BB1E8CDCDC009CD024 /* LaunchScreen.storyboard */; };
+		CB0577321EA49B9F005EC17D /* SnapshotImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0577311EA49B9F005EC17D /* SnapshotImageViewCell.swift */; };
+		CB0577341EA49D47005EC17D /* SnapshotlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0577331EA49D47005EC17D /* SnapshotlistViewController.swift */; };
+		CB35D3431EAFB825004DC4BC /* WebviewScreenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB35D3421EAFB825004DC4BC /* WebviewScreenshot.swift */; };
+		CBD5ACE41ED834710012AC44 /* CapturedImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD5ACE31ED834710012AC44 /* CapturedImageViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		84FDB4AD1E8CDCDC009CD024 /* WebSnapshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebSnapshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84FDB4B01E8CDCDC009CD024 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		84FDB4B21E8CDCDC009CD024 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		84FDB4B71E8CDCDC009CD024 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		84FDB4B91E8CDCDC009CD024 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		84FDB4BC1E8CDCDC009CD024 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		84FDB4BE1E8CDCDC009CD024 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CB0577311EA49B9F005EC17D /* SnapshotImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotImageViewCell.swift; sourceTree = "<group>"; };
+		CB0577331EA49D47005EC17D /* SnapshotlistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotlistViewController.swift; sourceTree = "<group>"; };
+		CB35D3421EAFB825004DC4BC /* WebviewScreenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewScreenshot.swift; sourceTree = "<group>"; };
+		CB7821D91F041E38008A092B /* ScrollCatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScrollCatch-Bridging-Header.h"; sourceTree = "<group>"; };
+		CBD5ACE31ED834710012AC44 /* CapturedImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CapturedImageViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84FDB4AA1E8CDCDC009CD024 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84FDB4A41E8CDCDC009CD024 = {
+			isa = PBXGroup;
+			children = (
+				84FDB4AF1E8CDCDC009CD024 /* WebSnapshot */,
+				84FDB4AE1E8CDCDC009CD024 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		84FDB4AE1E8CDCDC009CD024 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84FDB4AD1E8CDCDC009CD024 /* WebSnapshot.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84FDB4AF1E8CDCDC009CD024 /* WebSnapshot */ = {
+			isa = PBXGroup;
+			children = (
+				CB7821D91F041E38008A092B /* ScrollCatch-Bridging-Header.h */,
+				CB0577311EA49B9F005EC17D /* SnapshotImageViewCell.swift */,
+				84FDB4B01E8CDCDC009CD024 /* AppDelegate.swift */,
+				84FDB4B21E8CDCDC009CD024 /* FirstViewController.swift */,
+				84FDB4B61E8CDCDC009CD024 /* Main.storyboard */,
+				84FDB4B91E8CDCDC009CD024 /* Assets.xcassets */,
+				84FDB4BB1E8CDCDC009CD024 /* LaunchScreen.storyboard */,
+				84FDB4BE1E8CDCDC009CD024 /* Info.plist */,
+				CB0577331EA49D47005EC17D /* SnapshotlistViewController.swift */,
+				CB35D3421EAFB825004DC4BC /* WebviewScreenshot.swift */,
+				CBD5ACE31ED834710012AC44 /* CapturedImageViewController.swift */,
+			);
+			path = WebSnapshot;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		84FDB4AC1E8CDCDC009CD024 /* WebSnapshot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84FDB4C11E8CDCDC009CD024 /* Build configuration list for PBXNativeTarget "WebSnapshot" */;
+			buildPhases = (
+				84FDB4A91E8CDCDC009CD024 /* Sources */,
+				84FDB4AA1E8CDCDC009CD024 /* Frameworks */,
+				84FDB4AB1E8CDCDC009CD024 /* Resources */,
+				CB7AF0501EE29FEF009DA034 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WebSnapshot;
+			productName = ScrollCatch;
+			productReference = 84FDB4AD1E8CDCDC009CD024 /* WebSnapshot.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84FDB4A51E8CDCDC009CD024 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = shion;
+				TargetAttributes = {
+					84FDB4AC1E8CDCDC009CD024 = {
+						CreatedOnToolsVersion = 7.2.1;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 84FDB4A81E8CDCDC009CD024 /* Build configuration list for PBXProject "WebSnapshot" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84FDB4A41E8CDCDC009CD024;
+			productRefGroup = 84FDB4AE1E8CDCDC009CD024 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84FDB4AC1E8CDCDC009CD024 /* WebSnapshot */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		84FDB4AB1E8CDCDC009CD024 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84FDB4BD1E8CDCDC009CD024 /* LaunchScreen.storyboard in Resources */,
+				84FDB4BA1E8CDCDC009CD024 /* Assets.xcassets in Resources */,
+				84FDB4B81E8CDCDC009CD024 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CB7AF0501EE29FEF009DA034 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84FDB4A91E8CDCDC009CD024 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB0577341EA49D47005EC17D /* SnapshotlistViewController.swift in Sources */,
+				CB0577321EA49B9F005EC17D /* SnapshotImageViewCell.swift in Sources */,
+				CBD5ACE41ED834710012AC44 /* CapturedImageViewController.swift in Sources */,
+				84FDB4B11E8CDCDC009CD024 /* AppDelegate.swift in Sources */,
+				CB35D3431EAFB825004DC4BC /* WebviewScreenshot.swift in Sources */,
+				84FDB4B31E8CDCDC009CD024 /* FirstViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		84FDB4B61E8CDCDC009CD024 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84FDB4B71E8CDCDC009CD024 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		84FDB4BB1E8CDCDC009CD024 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84FDB4BC1E8CDCDC009CD024 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		84FDB4BF1E8CDCDC009CD024 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84FDB4C01E8CDCDC009CD024 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		84FDB4C21E8CDCDC009CD024 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = WebSnapshot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shion.ScrollCatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WebSnapshot/ScrollCatch-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84FDB4C31E8CDCDC009CD024 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = WebSnapshot/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.shion.ScrollCatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WebSnapshot/ScrollCatch-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84FDB4A81E8CDCDC009CD024 /* Build configuration list for PBXProject "WebSnapshot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84FDB4BF1E8CDCDC009CD024 /* Debug */,
+				84FDB4C01E8CDCDC009CD024 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84FDB4C11E8CDCDC009CD024 /* Build configuration list for PBXNativeTarget "WebSnapshot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84FDB4C21E8CDCDC009CD024 /* Debug */,
+				84FDB4C31E8CDCDC009CD024 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84FDB4A51E8CDCDC009CD024 /* Project object */;
+}
