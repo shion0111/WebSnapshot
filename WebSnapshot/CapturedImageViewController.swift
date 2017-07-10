@@ -124,35 +124,43 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         centerScrollViewContents(scrollView: scrollView)
     }
-    /*
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        if scrollView.zoomScale > 1 {
-            if let image = imageView.image {
-                let ratioW = imageView.frame.width / image.size.width
-                let ratioH = imageView.frame.height / image.size.height
-                let ratio = ratioW < ratioH ? ratioW:ratioH
-                let newWidth = image.size.width*ratio
-                let newHeight = image.size.height*ratio
-                let left = 0.5 * (newWidth * scrollView.zoomScale > imageView.frame.width ? (newWidth - imageView.frame.width) : (scrollView.frame.width - scrollView.contentSize.width))
-                let top = 0.5 * (newHeight * scrollView.zoomScale > imageView.frame.height ? (newHeight - imageView.frame.height) : (scrollView.frame.height - scrollView.contentSize.height))
-                scrollView.contentInset = UIEdgeInsetsMake(top, left, top, left)
-            }
-        } else {
-            scrollView.contentInset = UIEdgeInsets.zero
-        }
-    }
-     */
+    
     @IBAction func closeViewer() {
         dismiss(animated: true, completion: nil)
+        
     }
-/*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func promptDelete() {
+        let alert = UIAlertController(title: "Confirm to delete this file?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (_ : UIAlertAction) -> Void in
+            
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive) { (_ : UIAlertAction) -> Void in
+            let manager = FileManager.default
+            do {
+                try manager.removeItem(at: self.fileURL)
+                self.closeViewer()
+            } catch {
+                print("Could not delete this file: \(error)")
+            }
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        self.present(alert, animated: true, completion: nil)
+        
     }
-    */
-
+    @IBAction func activityViewAction() {
+        
+        // set up activity view controller
+        let activityViewController = UIActivityViewController(activityItems: ["Saved snapshot", self.fileURL], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        
+        // exclude some activity types from the list (optional)
+        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        
+        // present the view controller
+        self.present(activityViewController, animated: true, completion: nil)
+        
+    }
 }
