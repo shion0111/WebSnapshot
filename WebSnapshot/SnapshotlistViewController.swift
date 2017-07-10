@@ -59,6 +59,8 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+    
+    //  get a sorted fileURL list
     func listFilesAt(path: String) -> [URL] {
         let fileManager = FileManager.default
 
@@ -69,31 +71,35 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
             let resourceKeys: [URLResourceKey] = [.isDirectoryKey]//[.creationDateKey, .isDirectoryKey]
             let documentsURL = try fileManager.url(for: .documentDirectory,
                                                    in: .userDomainMask, appropriateFor: nil, create: false)
-            let enumerator = FileManager.default.enumerator(at: documentsURL,
-                                                            includingPropertiesForKeys: resourceKeys,
-                                                            options: [.skipsHiddenFiles],
-                                                            errorHandler: { (url, error) -> Bool in
-                                                                print("directoryEnumerator error at \(url): ", error)
-                                                                return true
-            })!
-
-            for case let fileURL as URL in enumerator {
-                let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
-                print(fileURL.path, fileURL.pathExtension)
-                if !(resourceValues.isDirectory!) && (fileURL.pathExtension.lowercased() == "jpg") {
-
-                    urls.append(fileURL)
+            if let urlArray = try? fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: [.contentModificationDateKey],
+                                                                           options:.skipsHiddenFiles) {
+                let m = urlArray.map { url in
+                    (url.path, (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast)
+                    }
+                    .sorted(by: { $0.1 < $1.1 }) // sort descending modification dates
+                    .map { $0.0 } // extract file names
+                
+                for case let path in m {
+                    let fileURL = URL(fileURLWithPath: path)
+                    let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
+                    if !(resourceValues.isDirectory!) && (fileURL.pathExtension.lowercased() == "jpg") {
+                        
+                        urls.append(fileURL)
+                    }
                 }
-
+                
+            } else {
+              return urls
             }
-
+            
         } catch {
                 print(error)
         }
-
+ 
         return urls
     }
-
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         return capturedIMGs.count
@@ -107,25 +113,22 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         
         let fileName = NSString(string: capturedIMGs[indexPath.row].absoluteString).lastPathComponent
         cell.caption.text = fileName
-        //do {
+        
         let url = capturedIMGs[indexPath.row]
+        
+        // Generating reasonably sized thumbnails by CGImageSource
         let src = CGImageSourceCreateWithURL(url as CFURL, nil)
         let d = [
-            //kCGImageSourceShouldAllowFloat: true as AnyObject,
+            
             kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
             kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
-            kCGImageSourceThumbnailMaxPixelSize: Int(2048)
-            //kCGImageSourceCreateThumbnailFromImageAlways: true as AnyObject
+            kCGImageSourceThumbnailMaxPixelSize: Int(1024)
             ] as [CFString : Any]
         let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
         if imref != nil {
-            //print("imref width: \( imref?.width)")
             cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up)
         }
-
-        //} catch {
-        //    print("Error loading image : \(error)")
-        //}
+        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
