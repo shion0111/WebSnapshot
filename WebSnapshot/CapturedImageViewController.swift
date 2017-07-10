@@ -156,8 +156,7 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
         let activityViewController = UIActivityViewController(activityItems: ["Saved snapshot", self.fileURL], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
-        // exclude some activity types from the list (optional)
-        activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+        activityViewController.excludedActivityTypes = [ UIActivityType.postToFacebook ]
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)
