@@ -110,16 +110,17 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         //do {
         let url = capturedIMGs[indexPath.row]
         let src = CGImageSourceCreateWithURL(url as CFURL, nil)
-        let scale = UIScreen.main.scale
         let d = [
-            kCGImageSourceShouldAllowFloat: true as AnyObject,
+            //kCGImageSourceShouldAllowFloat: true as AnyObject,
+            kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
             kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
-            kCGImageSourceCreateThumbnailWithTransform: true as AnyObject
+            kCGImageSourceThumbnailMaxPixelSize: Int(2048)
             //kCGImageSourceCreateThumbnailFromImageAlways: true as AnyObject
-        ]
+            ] as [CFString : Any]
         let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
         if imref != nil {
-            cell.image.image = UIImage(cgImage: imref!, scale: scale, orientation: UIImageOrientation.up)  //(CGImage: imref!, orientation: .Up)
+            //print("imref width: \( imref?.width)")
+            cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up)
         }
 
         //} catch {

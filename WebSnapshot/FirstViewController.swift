@@ -13,7 +13,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
 
     @IBOutlet weak var baseView: UIScrollView!//UIView!
     @IBOutlet weak var urlField: UITextField!
-    @IBOutlet weak var loading: UIActivityIndicatorView!
+    @IBOutlet weak var loading: LoadingIndicatorView!
     var webview: WKWebView!
     var bSize: CGSize = CGSize.zero
 
@@ -149,7 +149,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
 
             } else {
                 
-                self.loading.stopAnimating()
+                self.loading.stopAnimation()
                 self.loading.isHidden = true
                 
                 let img = UIGraphicsGetImageFromCurrentImageContext()
@@ -180,7 +180,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
 
         UIGraphicsBeginImageContextWithOptions(contentSize, webview.scrollView.isOpaque, 0.0)
         
-        loading.startAnimating()
+        loading.startAnimation()
         loading.isHidden = false
         
         
