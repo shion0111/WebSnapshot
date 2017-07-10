@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ImageIO
 
 private let reuseIdentifier = "sCell"
 
@@ -105,13 +106,25 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         cell.layer.borderColor = UIColor.lightGray.cgColor
         
         let fileName = NSString(string: capturedIMGs[indexPath.row].absoluteString).lastPathComponent
-        cell.caption.text = fileName//"123456...\n123456"
-        do {
-            let imagedata = try Data(contentsOf: capturedIMGs[indexPath.row])
-            cell.image.image = UIImage(data: imagedata)
-        } catch {
-            print("Error loading image : \(error)")
+        cell.caption.text = fileName
+        //do {
+        let url = capturedIMGs[indexPath.row]
+        let src = CGImageSourceCreateWithURL(url as CFURL, nil)
+        let scale = UIScreen.main.scale
+        let d = [
+            kCGImageSourceShouldAllowFloat: true as AnyObject,
+            kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
+            kCGImageSourceCreateThumbnailWithTransform: true as AnyObject
+            //kCGImageSourceCreateThumbnailFromImageAlways: true as AnyObject
+        ]
+        let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
+        if imref != nil {
+            cell.image.image = UIImage(cgImage: imref!, scale: scale, orientation: UIImageOrientation.up)  //(CGImage: imref!, orientation: .Up)
         }
+
+        //} catch {
+        //    print("Error loading image : \(error)")
+        //}
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

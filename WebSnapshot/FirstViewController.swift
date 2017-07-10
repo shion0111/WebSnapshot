@@ -13,6 +13,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
 
     @IBOutlet weak var baseView: UIScrollView!//UIView!
     @IBOutlet weak var urlField: UITextField!
+    @IBOutlet weak var loading: UIActivityIndicatorView!
     var webview: WKWebView!
     var bSize: CGSize = CGSize.zero
 
@@ -35,6 +36,8 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         btnReload.setImage(img, for: .normal)//setBackgroundImage(img, for: .normal)
         urlField.rightViewMode = .always
         urlField.rightView = btnReload
+        
+        loading.isHidden = true
         
         loadURL()
     }
@@ -104,6 +107,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     func delay(_ delay: Double, closure: @escaping() -> Void) {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+            
     }
 
     func innCapture(yoffset: CGFloat, contentSize: CGSize, handler: @escaping CompletionHandler) {
@@ -124,8 +128,8 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
 
         //https://stackoverflow.com/questions/24034544/dispatch-after-gcd-in-swift
 
-        delay(0.5) {
-
+        delay(1.0) {
+            
             if UIApplication.shared.applicationState != UIApplicationState.active {
 
                 UIGraphicsEndImageContext()
@@ -144,15 +148,20 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
                 self.innCapture(yoffset: yoffset + self.baseView.frame.size.height, contentSize: contentSize, handler: handler)
 
             } else {
-
+                
+                self.loading.stopAnimating()
+                self.loading.isHidden = true
+                
                 let img = UIGraphicsGetImageFromCurrentImageContext()
 
-                UIGraphicsEndImageContext()
+                
 
                 self.webview.frame = CGRect(x:0, y:0, width:self.baseView.frame.size.width, height:self.baseView.frame.size.height)
                 self.webview.scrollView.contentOffset =  CGPoint.zero
 
                 handler(img, false)
+                
+                UIGraphicsEndImageContext()
             }
 
         }
@@ -170,6 +179,10 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         baseView.frame = frame
 
         UIGraphicsBeginImageContextWithOptions(contentSize, webview.scrollView.isOpaque, 0.0)
+        
+        loading.startAnimating()
+        loading.isHidden = false
+        
         
         self.innCapture(yoffset: 0, contentSize: contentSize) { (image, _) in
 
