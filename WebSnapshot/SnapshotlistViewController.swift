@@ -43,24 +43,13 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         capturedIMGs = listFilesAt(path: "")
         snapshotListView.reloadData()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    // MARK: UICollectionViewDataSource
-
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    //  get a sorted fileURL list
+    //  get a fileURL list sorted by modification date
     func listFilesAt(path: String) -> [URL] {
         let fileManager = FileManager.default
 
@@ -76,7 +65,7 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
                 let m = urlArray.map { url in
                     (url.path, (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast)
                     }
-                    .sorted(by: { $0.1 < $1.1 }) // sort descending modification dates
+                    .sorted(by: { $0.1 < $1.1 }) // sort ascending modification dates
                     .map { $0.0 } // extract file names
                 
                 for case let path in m {
@@ -125,6 +114,7 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
             kCGImageSourceThumbnailMaxPixelSize: Int(1024)
             ] as [CFString : Any]
         let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
+        
         if imref != nil {
             cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up)
         }
