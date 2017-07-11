@@ -120,6 +120,19 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
         scrollView.setContentOffset(contentOffset, animated: false)
     }
     
+    //  Delete thumbnail in Caches
+    func deleteThumbnail(_ fileurl:URL?){
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
+        let filename = fileurl?.deletingPathExtension().lastPathComponent
+        let thumburl = URL(fileURLWithPath: "\(paths[0])/\(filename).thumb")
+        do {
+            try FileManager.default.removeItem(at: thumburl)
+        } catch let error {
+            print(error)
+        }
+        
+    }
     // UIScrollViewDelegate
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         centerScrollViewContents(scrollView: scrollView)
@@ -139,6 +152,7 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
             let manager = FileManager.default
             do {
                 try manager.removeItem(at: self.fileURL)
+                self.deleteThumbnail(self.fileURL)
                 self.closeViewer()
             } catch {
                 print("Could not delete this file: \(error)")

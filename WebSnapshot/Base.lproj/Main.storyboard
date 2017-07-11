@@ -29,38 +29,39 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </scrollView>
-                                    <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zzZ-ay-HCy" customClass="LoadingIndicatorView" customModule="WebSnapshot" customModuleProvider="target">
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zzZ-ay-HCy" customClass="LoadingIndicatorView" customModule="WebSnapshot" customModuleProvider="target">
                                         <rect key="frame" x="157" y="247" width="60" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="EMG-Vg-PHN"/>
+                                            <constraint firstAttribute="width" constant="60" id="pQl-CX-ula"/>
+                                        </constraints>
                                         <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="startAngle">
-                                                <real key="value" value="0.0"/>
-                                            </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="clockwise" value="YES"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="roundedCorners" value="YES"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="lerpColorMode" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="glowAmount">
-                                                <real key="value" value="2"/>
-                                            </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="gradientRotateSpeed">
-                                                <real key="value" value="1"/>
+                                                <real key="value" value="2"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="trackColor">
                                                 <color key="value" cocoaTouchSystemColor="darkTextColor"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="IBColor1">
-                                                <color key="value" red="0.98621511579999999" green="1" blue="0.29569425269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="value" red="0.58105844259999995" green="0.12855249639999999" blue="0.57453137639999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="IBColor2">
-                                                <color key="value" name="selectedControlColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="value" red="0.79939944727891155" green="0.80262297391891479" blue="0.99919450283050537" alpha="1" colorSpace="calibratedRGB"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="IBColor3">
-                                                <color key="value" red="0.87606352779999996" green="1" blue="0.45512823870000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="value" red="0.58188301320000002" green="0.21569153669999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="zzZ-ay-HCy" firstAttribute="centerX" secondItem="i5H-UB-7iW" secondAttribute="centerX" id="4Mh-8m-A7L"/>
+                                    <constraint firstItem="zzZ-ay-HCy" firstAttribute="centerY" secondItem="i5H-UB-7iW" secondAttribute="centerY" id="5fS-fp-Q7G"/>
+                                </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-x3-EWB">
                                 <rect key="frame" x="0.0" y="21" width="375" height="44"/>

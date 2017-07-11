@@ -81,48 +81,10 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         }
     }
     
-    public var progress: Double = 0 {
-        didSet {
-            let clampedProgress = Utility.clamp(value: progress, minMax: (0, 1))
-            angle = 360 * clampedProgress
-        }
-    }
     
-    @IBInspectable public var angle: Double = 0 {
-        didSet {
-            if self.isAnimating() {
-                self.pauseAnimation()
-            }
-            progressLayer.angle = angle
-        }
-    }
-    
-    @IBInspectable public var startAngle: Double = 0 {
-        didSet {
-            startAngle = Utility.mod(value: startAngle, range: 360, minMax: (0, 360))
-            progressLayer.startAngle = startAngle
-            progressLayer.setNeedsDisplay()
-        }
-    }
-    
-    @IBInspectable public var clockwise: Bool = true {
-        didSet {
-            progressLayer.clockwise = clockwise
-            progressLayer.setNeedsDisplay()
-        }
-    }
-    
-    @IBInspectable public var roundedCorners: Bool = true {
-        didSet {
-            progressLayer.roundedCorners = roundedCorners
-        }
-    }
-    
-    @IBInspectable public var lerpColorMode: Bool = false {
-        didSet {
-            progressLayer.lerpColorMode = lerpColorMode
-        }
-    }
+    public var clockwise: Bool = true
+    public var roundedCorners: Bool = true
+    public var lerpColorMode: Bool = false
     
     @IBInspectable public var gradientRotateSpeed: CGFloat = 0 {
         didSet {
@@ -130,45 +92,11 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         }
     }
     
-    @IBInspectable public var glowAmount: CGFloat = 1.0 {//Between 0 and 1
-        didSet {
-            glowAmount = Utility.clamp(value: glowAmount, minMax: (0, 1))
-            progressLayer.glowAmount = glowAmount
-        }
-    }
+    public var glowMode: LoadingIndicatorViewGlowMode = .forward
     
-    @IBInspectable public var glowMode: LoadingIndicatorViewGlowMode = .forward {
-        didSet {
-            progressLayer.glowMode = glowMode
-        }
-    }
-    
-    @IBInspectable public var progressThickness: CGFloat = 0.4 {//Between 0 and 1
-        didSet {
-            progressThickness = Utility.clamp(value: progressThickness, minMax: (0, 1))
-            progressLayer.progressThickness = progressThickness/2
-        }
-    }
-    
-    @IBInspectable public var trackThickness: CGFloat = 0.5 {//Between 0 and 1
-        didSet {
-            trackThickness = Utility.clamp(value: trackThickness, minMax: (0, 1))
-            progressLayer.trackThickness = trackThickness/2
-        }
-    }
-    
-    @IBInspectable public var trackColor: UIColor = .black {
-        didSet {
-            progressLayer.trackColor = trackColor
-            progressLayer.setNeedsDisplay()
-        }
-    }
-    
-    @IBInspectable public var progressInsideFillColor: UIColor? = nil {
-        didSet {
-            progressLayer.progressInsideFillColor = progressInsideFillColor ?? .clear
-        }
-    }
+    public var progressThickness: CGFloat = 0.4
+    public var trackThickness: CGFloat = 0.5
+    public var trackColor: UIColor = .black
     
     public var progressColors: [UIColor] {
         get {
@@ -227,13 +155,11 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     }
     
     private func refreshValues() {
-        progressLayer.angle = angle
-        progressLayer.startAngle = startAngle
+        progressLayer.angle = 0
         progressLayer.clockwise = clockwise
         progressLayer.roundedCorners = roundedCorners
         progressLayer.lerpColorMode = lerpColorMode
         progressLayer.gradientRotateSpeed = gradientRotateSpeed
-        progressLayer.glowAmount = glowAmount
         progressLayer.glowMode = glowMode
         progressLayer.progressThickness = progressThickness/2
         progressLayer.trackColor = trackColor
@@ -257,10 +183,10 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     }
     
     public func startAnimation() {
-        animate(fromAngle: 0, toAngle: 360, duration: 1, relativeDuration: false, completion:nil)
+        animate(duration: 1, relativeDuration: false, completion:nil)
     }
     
-    public func animate(fromAngle: Double, toAngle: Double, duration: TimeInterval, relativeDuration: Bool = true, completion: ((Bool) -> Void)?) {
+    public func animate(duration: TimeInterval, relativeDuration: Bool = true, completion: ((Bool) -> Void)?) {
         if isAnimating() {
             pauseAnimation()
         }
@@ -269,42 +195,30 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         if relativeDuration {
             animationDuration = duration
         } else {
-            let traveledAngle = Utility.mod(value: toAngle - fromAngle, range: 360, minMax: (0, 360))
+            let traveledAngle = Utility.mod(value: 360, range: 360, minMax: (0, 360))
             let scaledDuration = (TimeInterval(traveledAngle) * duration) / 360
             animationDuration = scaledDuration
         }
         
         let animation = CABasicAnimation(keyPath: "angle")
-        animation.fromValue = fromAngle
-        animation.toValue = toAngle
+        animation.fromValue = 0
+        animation.toValue = 360
         animation.duration = animationDuration
         animation.repeatCount = .infinity
         animation.delegate = self
         animation.isRemovedOnCompletion = false
-        angle = toAngle
         animationCompletionBlock = completion
         
         progressLayer.add(animation, forKey: "angle")
     }
     
-    public func animate(toAngle: Double, duration: TimeInterval, relativeDuration: Bool = true, completion: ((Bool) -> Void)?) {
-        if isAnimating() {
-            pauseAnimation()
-        }
-        animate(fromAngle: angle, toAngle: toAngle, duration: duration, relativeDuration: relativeDuration, completion: completion)
-    }
-    
     public func pauseAnimation() {
-        guard let presentationLayer = progressLayer.presentation() else { return }
         
-        let currentValue = presentationLayer.angle
         progressLayer.removeAllAnimations()
-        angle = currentValue
     }
     
     public func stopAnimation() {
         progressLayer.removeAllAnimations()
-        angle = 0
     }
     
     public func isAnimating() -> Bool {
@@ -359,7 +273,6 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
                 invalidateGradientCache()
             }
         }
-        var glowAmount: CGFloat = 0
         var glowMode: LoadingIndicatorViewGlowMode = .forward
         var progressThickness: CGFloat = 0.5
         var trackThickness: CGFloat = 0.5
@@ -375,14 +288,14 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         
         private enum GlowConstants {
             private static let sizeToGlowRatio: CGFloat = 0.00015
-            static func glowAmount(forAngle angle: Double, glowAmount: CGFloat, glowMode: LoadingIndicatorViewGlowMode, size: CGFloat) -> CGFloat {
+            static func glowAmount(forAngle angle: Double, glowMode: LoadingIndicatorViewGlowMode, size: CGFloat) -> CGFloat {
                 switch glowMode {
                 case .forward:
-                    return CGFloat(angle) * size * sizeToGlowRatio * glowAmount
+                    return CGFloat(angle) * size * sizeToGlowRatio*2.0
                 case .reverse:
-                    return CGFloat(360 - angle) * size * sizeToGlowRatio * glowAmount
+                    return CGFloat(360 - angle) * size * sizeToGlowRatio*2.0
                 case .constant:
-                    return 360 * size * sizeToGlowRatio * glowAmount
+                    return 360 * size * sizeToGlowRatio*2.0
                 default:
                     return 0
                 }
@@ -403,7 +316,6 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
             roundedCorners = progressLayer.roundedCorners
             lerpColorMode = progressLayer.lerpColorMode
             gradientRotateSpeed = progressLayer.gradientRotateSpeed
-            glowAmount = progressLayer.glowAmount
             glowMode = progressLayer.glowMode
             progressThickness = progressLayer.progressThickness
             trackThickness = progressLayer.trackThickness
@@ -447,7 +359,7 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
             
             imageCtx?.addArc(center: CGPoint(x: width/2.0, y: height/2.0), radius: arcRadius, startAngle: fromAngle, endAngle: toAngle, clockwise: clockwise)
             
-            let glowValue = GlowConstants.glowAmount(forAngle: reducedAngle, glowAmount: glowAmount, glowMode: glowMode, size: width)
+            let glowValue = GlowConstants.glowAmount(forAngle: reducedAngle, glowMode: glowMode, size: width)
             if glowValue > 0 {
                 imageCtx?.setShadow(offset: CGSize.zero, blur: glowValue, color: UIColor.black.cgColor)
             }
@@ -496,7 +408,7 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
                     let step = 1 / CGFloat(steps)
                     for i in 1...steps {
                         let fi = CGFloat(i)
-                        if (t <= fi * step || i == steps) {
+                        if t <= fi * step || i == steps {
                             let colorT = Utility.inverseLerp(value: t, minMax: ((fi - 1) * step, fi * step))
                             color = Utility.colorLerp(value: colorT, minMax: (colorsArray[i - 1], colorsArray[i]))
                             break
