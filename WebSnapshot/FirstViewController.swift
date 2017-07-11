@@ -166,7 +166,19 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
 
         }
     }
-    
+    func saveThumbnailToCache(_ thumb: UIImage?, _ filename: String ) {
+        let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
+        let thumburl = URL(fileURLWithPath: "\(paths[0])/\(filename).thumb")
+        
+        let data = UIImageJPEGRepresentation(thumb!, 1.0)
+        do {
+            try data?.write(to: thumburl)
+        } catch let error {
+            print("Error when generating thumbnail : \(error)")
+        }
+        
+        
+    }
     @IBAction func doCapture() {
         self.bSize = baseView.frame.size
         let contentSize = webview.scrollView.contentSize
@@ -196,12 +208,21 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
             if image != nil {
                 // Create path.
                 let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-                let filePath = "\(paths[0])/\(self.getCurrentDateTickAsFilename()).jpg"
+                let filename = self.getCurrentDateTickAsFilename()
+                let filePath = "\(paths[0])/\(filename).jpg"
                 let fileurl = URL(fileURLWithPath: filePath)
+                
                 // Save image.
                 let data = UIImageJPEGRepresentation(image!, 1.0)
                 do {
                     try data?.write(to: fileurl)
+                    
+                    // save a thumbnail in Cache
+                    let size: CGSize! = image?.size
+                    let rect = CGRect(x: 0, y: (size.height-size.width)/2, width: size.width, height: size.width)
+                    let thumbRef = image?.cgImage?.cropping(to:rect)
+                    self.saveThumbnailToCache(UIImage(cgImage:thumbRef!), filename)
+                    
                 } catch let error {
                     print(error)
                 }

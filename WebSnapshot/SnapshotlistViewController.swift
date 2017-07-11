@@ -105,20 +105,24 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         
         let url = capturedIMGs[indexPath.row]
         
-        // Generating reasonably sized thumbnails by CGImageSource
-        let src = CGImageSourceCreateWithURL(url as CFURL, nil)
-        let d = [
+        // try get thumbnail in Cache
+        if let thumbRUL = getThumbnailURL(url.path) {
+            cell.image.image = UIImage(contentsOfFile: thumbRUL.path)
+        } else {
+            // Generating reasonably sized thumbnails by CGImageSource
+            let src = CGImageSourceCreateWithURL(url as CFURL, nil)
+            let d = [
             
-            kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
-            kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
-            kCGImageSourceThumbnailMaxPixelSize: Int(1024)
-            ] as [CFString : Any]
-        let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
-        
-        if imref != nil {
-            cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up)
+                kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
+                kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
+                kCGImageSourceThumbnailMaxPixelSize: Int(1024)
+                ] as [CFString : Any]
+            let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
+            
+            if imref != nil {
+                cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up)
+            }
         }
-        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -132,6 +136,15 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         }
         
         return header
+    }
+    func getThumbnailURL(_ filename: String) -> URL? {
+        let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
+        let name = URL(fileURLWithPath: filename).deletingPathExtension().lastPathComponent
+        let path = "\(paths[0])/\(name).thumb"
+        if FileManager.default.fileExists(atPath: path) {
+            return URL(fileURLWithPath: path)
+        }
+        return nil
     }
     override var prefersStatusBarHidden: Bool {
         return false
