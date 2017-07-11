@@ -121,17 +121,18 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     //  Delete thumbnail in Caches
-    func deleteThumbnail(_ fileurl:URL?){
+    func deleteThumbnail(_ fileurl: URL?) {
         
         let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
-        let filename = fileurl?.deletingPathExtension().lastPathComponent
+        let filename: String = (fileurl?.deletingPathExtension().lastPathComponent)!
         let thumburl = URL(fileURLWithPath: "\(paths[0])/\(filename).thumb")
-        do {
-            try FileManager.default.removeItem(at: thumburl)
-        } catch let error {
-            print(error)
+        if FileManager.default.fileExists(atPath: thumburl.path) {
+            do {
+                try FileManager.default.removeItem(at: thumburl)
+            } catch let error {
+                print(error)
+            }
         }
-        
     }
     // UIScrollViewDelegate
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
