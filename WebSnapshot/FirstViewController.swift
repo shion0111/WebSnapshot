@@ -56,6 +56,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         //let contentSize = webview.scrollView.contentSize
         webview.scrollView.contentOffset = CGPoint(x:0, y:0)
         self.bSize = baseView.frame.size
+        self.urlField.text = webview.url?.absoluteString
     }
 
     func getCurrentDateTickAsFilename() -> String {
@@ -255,6 +256,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     @IBAction func backward() {
         if self.webview.canGoBack {
             self.webview.goBack()
+            self.urlField.text = self.webview.url?.absoluteString
         }
     }
 }
