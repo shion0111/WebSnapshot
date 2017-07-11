@@ -14,6 +14,9 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var baseView: UIScrollView!//UIView!
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var urlBarButtonItem: UIBarButtonItem!
+    
+    
     var webview: WKWebView!
     var bSize: CGSize = CGSize.zero
 
@@ -73,6 +76,24 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         loadURL()
         return false
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        loading.setNeedsLayout()
+        
+        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+                if UIDevice.current.orientation.isLandscape {
+                    self.urlBarButtonItem.width = 800
+                } else {
+                    self.urlBarButtonItem.width = 275
+                }
+            }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+         
+            }
+ 
+         )
+     
+ }
     
     @IBAction func loadURL() {
         

@@ -65,6 +65,7 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-x3-EWB">
                                 <rect key="frame" x="0.0" y="21" width="375" height="44"/>
                                 <items>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="IWn-Cm-7jv"/>
                                     <barButtonItem image="capture" style="plain" id="Le5-4N-TWH">
                                         <connections>
                                             <action selector="doCapture" destination="9pv-A4-QxB" id="eAb-Yk-qHO"/>
@@ -72,11 +73,11 @@
                                     </barButtonItem>
                                     <barButtonItem width="800" style="plain" id="TYO-DU-dhU">
                                         <view key="customView" contentMode="scaleToFill" misplaced="YES" id="RCR-4Q-KSO">
-                                            <rect key="frame" x="45" y="22" width="285" height="0.0"/>
+                                            <rect key="frame" x="55" y="7" width="275" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://www.apple.com" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="aAu-pp-zmg">
-                                                    <rect key="frame" x="0.0" y="0.0" width="297" height="0.0"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://www.apple.com" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="aAu-pp-zmg">
+                                                    <rect key="frame" x="0.0" y="0.0" width="275" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="go" enablesReturnKeyAutomatically="YES" textContentType="url"/>
                                                     <connections>
@@ -85,7 +86,7 @@
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="aAu-pp-zmg" secondAttribute="trailing" constant="20" id="H9q-Yr-yyb"/>
+                                                <constraint firstAttribute="trailing" secondItem="aAu-pp-zmg" secondAttribute="trailing" id="H9q-Yr-yyb"/>
                                                 <constraint firstItem="aAu-pp-zmg" firstAttribute="top" secondItem="RCR-4Q-KSO" secondAttribute="top" id="IF0-yJ-WJN"/>
                                                 <constraint firstItem="aAu-pp-zmg" firstAttribute="leading" secondItem="RCR-4Q-KSO" secondAttribute="leading" id="eiQ-07-KZk"/>
                                                 <constraint firstItem="aAu-pp-zmg" firstAttribute="height" secondItem="RCR-4Q-KSO" secondAttribute="height" id="iKo-AM-ctM"/>
@@ -97,6 +98,7 @@
                                             <action selector="backward" destination="9pv-A4-QxB" id="5CW-oK-S3m"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="BjW-j7-Wpe"/>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -125,6 +127,7 @@
                     <connections>
                         <outlet property="baseView" destination="egB-jp-b0V" id="Ohk-hR-dwS"/>
                         <outlet property="loading" destination="zzZ-ay-HCy" id="eOo-Zj-2mg"/>
+                        <outlet property="urlBarButtonItem" destination="TYO-DU-dhU" id="spW-qx-SXv"/>
                         <outlet property="urlField" destination="aAu-pp-zmg" id="sQk-oC-g3d"/>
                     </connections>
                 </viewController>
