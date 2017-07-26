@@ -111,12 +111,13 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         } else {
             // Generating reasonably sized thumbnails by CGImageSource
             let src = CGImageSourceCreateWithURL(url as CFURL, nil)
-            let d = [
+            
+            let d: [NSObject:AnyObject] = [
             
                 kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
                 kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
-                kCGImageSourceThumbnailMaxPixelSize: Int(1024)
-                ] as [CFString : Any]
+                kCGImageSourceThumbnailMaxPixelSize: NSNumber(value: 1024)
+                ]
             let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
             
             if imref != nil {

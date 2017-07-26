@@ -29,6 +29,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.urlField.autoresizingMask = [.flexibleWidth]
+        
         let config = WKWebViewConfiguration()
         let bounds = CGRect( x:self.view.bounds.origin.x, y:self.view.bounds.origin.y, width:baseView.bounds.width, height:baseView.bounds.height)
         
@@ -58,6 +59,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     override var prefersStatusBarHidden: Bool {
         return false
     }
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         //let contentSize = webview.scrollView.contentSize
         webview.scrollView.contentOffset = CGPoint(x:0, y:0)
@@ -86,19 +88,20 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
+        super.viewWillTransition(to: size, with: coordinator)
+        
         loading.setNeedsLayout()
         
-        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            if UIDevice.current.orientation.isLandscape {
-                self.urlBarButtonItem.width = 800
-            } else {
-                self.urlBarButtonItem.width = 275
-            }
-        }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+        coordinator.animate(alongsideTransition: { _ in
+            
+            self.urlField.frame = CGRect(x:0, y:0, width:size.width - 95, height:self.urlField.frame.size.height)
+        }, completion: { _ in
             
         }
             
         )
+        
+        
         
     }
     

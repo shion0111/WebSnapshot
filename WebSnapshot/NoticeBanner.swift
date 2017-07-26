@@ -15,7 +15,7 @@ private enum NoticeBannerState {
 class NoticeBanner: UIView {
     private let backgroundView: UIView = {
        let view = UIView()
-        view.backgroundColor = UIColor(red:31.0/255.0, green:136.0/255.0, blue:255.0/255.0, alpha:0.9)
+        view.backgroundColor = UIColor(red:0/255.0, green:152.0/255.0, blue:255.0/255.0, alpha:1.0)
        return view
     }()
     private let noticeLabel: UILabel = {
