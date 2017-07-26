@@ -2,12 +2,14 @@
 //  FirstViewController.swift
 //  ScrollCatch
 //
-//  Created by admin on 3/30/17.
-//  Copyright © 2017 shion. All rights reserved.
+//  Created by Antelis on 3/30/17.
+//  Copyright © 2017 Antelis. All rights reserved.
+//
 //
 
 import UIKit
 import WebKit
+
 
 class FirstViewController: UIViewController, WKNavigationDelegate {
     
@@ -16,11 +18,12 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var urlBarButtonItem: UIBarButtonItem!
     
-    @IBOutlet weak var captureView : UIView!
+    @IBOutlet weak var captureView: UIView!
 
     
     var webview: WKWebView!
     var bSize: CGSize = CGSize.zero
+    var notice: NoticeBanner!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -229,6 +232,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
      }
      */
     @IBAction func doCapture() {
+        
         self.bSize = baseView.frame.size
         let contentSize = webview.scrollView.contentSize
         var frame = webview.frame
@@ -281,6 +285,13 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
                     self.saveThumbnailToCache(i0, filename)
                     
                     
+                    self.notice = NoticeBanner(message: "Snapshot saved at \(filename).jpg", dismissCallback:self.bannerDismissed)
+                    
+                    self.notice.show(preaction: { () -> (Void) in
+                        self.setNeedsStatusBarAppearanceUpdate()
+                    })
+                    
+                    
                 } catch let error {
                     print(error)
                 }
@@ -288,6 +299,16 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
              
         }
         
+    }
+    func bannerDismissed() {
+        self.notice = nil
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if notice != nil {
+            return .lightContent
+        }
+        return .default
     }
     
     @IBAction func backward() {

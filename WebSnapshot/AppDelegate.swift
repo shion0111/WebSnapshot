@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  ScrollCatch
 //
-//  Created by admin on 3/30/17.
-//  Copyright © 2017 shion. All rights reserved.
+//  Created by Antelis on 3/30/17.
+//  Copyright © 2017 Antelis. All rights reserved.
 //
 
 import UIKit

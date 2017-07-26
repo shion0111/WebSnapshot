@@ -3,7 +3,7 @@
 //  ScrollCatch
 //
 //  Created by Antelis on 26/05/2017.
-//  Copyright © 2017 shion. All rights reserved.
+//  Copyright © 2017 Antelis. All rights reserved.
 //
 
 import UIKit
@@ -149,7 +149,7 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
         
         let scrSize: CGSize = scrollView.frame.size
         let offx: CGFloat = (scrSize.width > realImgSize.width ? (scrSize.width - realImgSize.width) / 2 : 0)
-        let offy: CGFloat = (scrSize.height > realImgSize.height ? (scrSize.height - realImgSize.height) / 2 : 0)
+        let offy: CGFloat = 0//(scrSize.height > realImgSize.height ? (scrSize.height - realImgSize.height) / 2 : 0)
         scrollView.contentInset =  UIEdgeInsets(top:offy, left: offx, bottom: offy, right: offx)
         
         // The scroll view has zoomed, so you need to re-center the contents
@@ -167,9 +167,9 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
             imageCenter.x = scrollViewCenter.x
         }
         
-        if self.scrollView.contentSize.height < scrollViewSize.height {
-            imageCenter.y = scrollViewCenter.y
-        }
+        //if self.scrollView.contentSize.height < scrollViewSize.height {
+        //    imageCenter.y = scrollViewCenter.y
+        //}
         
         self.imageView.center = imageCenter
         
