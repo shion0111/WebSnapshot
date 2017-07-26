@@ -10,23 +10,25 @@ import UIKit
 import WebKit
 
 class FirstViewController: UIViewController, WKNavigationDelegate {
-
+    
     @IBOutlet weak var baseView: UIScrollView!//UIView!
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var loading: LoadingIndicatorView!
     @IBOutlet weak var urlBarButtonItem: UIBarButtonItem!
     
+    @IBOutlet weak var captureView : UIView!
+
     
     var webview: WKWebView!
     var bSize: CGSize = CGSize.zero
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.urlField.autoresizingMask = [.flexibleWidth]
         let config = WKWebViewConfiguration()
         let bounds = CGRect( x:self.view.bounds.origin.x, y:self.view.bounds.origin.y, width:baseView.bounds.width, height:baseView.bounds.height)
-
+        
         webview = WKWebView(frame: bounds, configuration: config)
         webview?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         webview.navigationDelegate = self
@@ -43,8 +45,9 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         loading.isHidden = true
         
         loadURL()
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -58,17 +61,17 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         self.bSize = baseView.frame.size
         self.urlField.text = webview.url?.absoluteString
     }
-
+    
     func getCurrentDateTickAsFilename() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.timeZone = TimeZone.ReferenceType.system
-
+        
         let date = Date()
         let date0 = dateFormatter.string(from: date)
         let tick = date.timeIntervalSince1970.rounded()
         let timeStamp = ""
-
+        
         return timeStamp.appendingFormat("%@-%ld", date0, Int(tick))
     }
     
@@ -83,18 +86,18 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         loading.setNeedsLayout()
         
         coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-                if UIDevice.current.orientation.isLandscape {
-                    self.urlBarButtonItem.width = 800
-                } else {
-                    self.urlBarButtonItem.width = 275
-                }
-            }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-         
+            if UIDevice.current.orientation.isLandscape {
+                self.urlBarButtonItem.width = 800
+            } else {
+                self.urlBarButtonItem.width = 275
             }
- 
-         )
-     
- }
+        }, completion: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            
+        }
+            
+        )
+        
+    }
     
     @IBAction func loadURL() {
         
@@ -115,77 +118,78 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
             return
         }
         //webview.scrollView.isScrollEnabled = false
-
+        
     }
-/*
-    func delayForloop(_ delay: Double, closure: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
-    }
-*/
+    /*
+     func delayForloop(_ delay: Double, closure: @escaping () -> Void) {
+     DispatchQueue.main.asyncAfter(
+     deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
+     }
+     */
     
     typealias CompletionHandler = (_: UIImage?, _: Bool) -> Void
-
+    
     func delay(_ delay: Double, closure: @escaping() -> Void) {
         let when = DispatchTime.now() + delay
         DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
-            
+        
     }
-
+    
     func innCapture(yoffset: CGFloat, contentSize: CGSize, handler: @escaping CompletionHandler) {
-
+        
         var scroll: Bool = true
         var mutableYoffset: CGFloat = yoffset
-        print(mutableYoffset)
-        if mutableYoffset > contentSize.height - baseView.frame.size.height {
+        
+        
+        // move up the super view of the webview
+        if mutableYoffset >= contentSize.height + baseView.frame.origin.y {
             scroll = false
-            mutableYoffset = contentSize.height - baseView.frame.size.height
+            mutableYoffset = contentSize.height + baseView.frame.origin.y
         }
-
-        let split: CGRect = CGRect(x: 0, y: mutableYoffset, width: baseView.frame.size.width, height: contentSize.height)//baseView.frame.size.height)
-        var myFrame: CGRect = webview.frame
-        myFrame.origin.y = -1 * mutableYoffset
-        //webview.scrollView.contentOffset = CGPoint(x:0, y:mutableYoffset-p)
-        webview.frame = myFrame
-
-        //https://stackoverflow.com/questions/24034544/dispatch-after-gcd-in-swift
-
-        delay(1.0) {
+        
+        var myFrame: CGRect = baseView.frame
+        //  only the onscreen part is captured
+        let split: CGRect = CGRect(x: 0, y: -myFrame.origin.y, width: self.captureView.frame.size.width, height: self.captureView.frame.size.height)
+        myFrame.origin.y -= mutableYoffset
+        
+        delay(0.5) {
             
             if UIApplication.shared.applicationState != UIApplicationState.active {
-
-                UIGraphicsEndImageContext()
-                self.webview.frame = CGRect(x:0, y:0, width:self.baseView.frame.size.width, height:self.baseView.frame.size.height)
+                
+                self.webview.frame = CGRect(x:0, y:0, width:self.baseView.frame.size.width, height:self.captureView.frame.size.height)
                 self.webview.scrollView.contentOffset =  CGPoint.zero
-
+                
                 //if (handler != nil){
                 handler(nil, true)
                 return
                 //}
             }
-
-            self.baseView.drawHierarchy(in: split, afterScreenUpdates: true)
+            
+            let res = self.captureView.drawHierarchy(in: split, afterScreenUpdates: true)
+            
+            self.baseView.frame = myFrame
+            print("drawHierarchy: \(res)")
             if scroll {
-
-                self.innCapture(yoffset: yoffset + self.baseView.frame.size.height, contentSize: contentSize, handler: handler)
-
+                //  recursive call
+                self.innCapture(yoffset: yoffset, contentSize: contentSize, handler: handler)
+                
+                
             } else {
                 
                 self.loading.stopAnimation()
                 self.loading.isHidden = true
                 
                 let img = UIGraphicsGetImageFromCurrentImageContext()
-
                 
-
-                self.webview.frame = CGRect(x:0, y:0, width:self.baseView.frame.size.width, height:self.baseView.frame.size.height)
-                self.webview.scrollView.contentOffset =  CGPoint.zero
-
+                //self.webview.frame = CGRect(x:0, y:0, width:self.baseView.frame.size.width, height:self.baseView.frame.size.height)
+                //self.webview.scrollView.contentOffset =  CGPoint.zero
+                
                 handler(img, false)
                 
                 UIGraphicsEndImageContext()
+                
             }
-
+            
         }
     }
     func saveThumbnailToCache(_ thumb: UIImage?, _ filename: String ) {
@@ -201,58 +205,91 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         
         
     }
+    /*
+     extension UIView {
+     func capture() -> UIImage? {
+     var image: UIImage?
+     
+     if #available(iOS 10.0, *) {
+     let format = UIGraphicsImageRendererFormat()
+     format.opaque = isOpaque
+     let renderer = UIGraphicsImageRenderer(size: frame.size, format: format)
+     image = renderer.image { context in
+     drawHierarchy(in: frame, afterScreenUpdates: true)
+     }
+     } else {
+     UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, UIScreen.main.scale)
+     drawHierarchy(in: frame, afterScreenUpdates: true)
+     image = UIGraphicsGetImageFromCurrentImageContext()
+     UIGraphicsEndImageContext()
+     }
+     
+     return image
+     }
+     }
+     */
     @IBAction func doCapture() {
         self.bSize = baseView.frame.size
         let contentSize = webview.scrollView.contentSize
         var frame = webview.frame
         frame.size = contentSize
         webview.frame = frame
-
+        
         frame = baseView.frame
         frame.size = contentSize
         baseView.frame = frame
-
-        UIGraphicsBeginImageContextWithOptions(contentSize, webview.scrollView.isOpaque, 0.0)
+        
+        
+        UIGraphicsBeginImageContextWithOptions(contentSize, webview.scrollView.isOpaque, UIScreen.main.scale)
         
         loading.startAnimation()
         loading.isHidden = false
         
-        
-        self.innCapture(yoffset: 0, contentSize: contentSize) { (image, _) in
-
-            var ff = self.baseView.frame
-            ff.size = self.bSize
-            self.baseView.frame = ff
-            ff = self.webview.frame
-            ff.size = self.bSize
-            self.webview.frame = ff
-
+        self.innCapture(yoffset: self.captureView.bounds.size.height, contentSize: contentSize) { (image, moveon) in
+            
+            //  restore the superview
+            if !moveon {
+                var ff = self.baseView.frame
+                ff.size = self.bSize
+                ff.origin.y = 0
+                self.baseView.frame = ff
+                ff = self.webview.frame
+                ff.size = self.bSize
+                self.webview.frame = ff
+            }
+            
             if image != nil {
-                // Create path.
+                // Create path
                 let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let filename = self.getCurrentDateTickAsFilename()
-                let filePath = "\(paths[0])/\(filename).jpg"
-                let fileurl = URL(fileURLWithPath: filePath)
+                let filepath = "\(paths[0])/\(filename).jpg"
+                print("innCapture -- \(filepath)")
+                let fileurl = URL(fileURLWithPath: filepath)
                 
-                // Save image.
+                
                 let data = UIImageJPEGRepresentation(image!, 1.0)
                 do {
+                    // Save image
                     try data?.write(to: fileurl)
                     
                     // save a thumbnail in Cache
                     let size: CGSize! = image?.size
+                    let cgimage = image?.cgImage
                     let rect = CGRect(x: 0, y: (size.height-size.width)/2, width: size.width, height: size.width)
-                    let thumbRef = image?.cgImage?.cropping(to:rect)
-                    self.saveThumbnailToCache(UIImage(cgImage:thumbRef!), filename)
+                    let thumbRef = cgimage?.cropping(to:rect)
+                    let i0 = UIImage(cgImage:thumbRef!)
+                    self.saveThumbnailToCache(i0, filename)
+                    
                     
                 } catch let error {
                     print(error)
                 }
             }
+             
         }
         
     }
-
+    
     @IBAction func backward() {
         if self.webview.canGoBack {
             self.webview.goBack()

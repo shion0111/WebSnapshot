@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.19" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="49e-Tb-3d3">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,52 +19,53 @@
                         <viewControllerLayoutGuide type="bottom" id="4ug-Mw-9AY"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="tsR-hK-woN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5H-UB-7iW">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i5H-UB-7iW">
+                                <rect key="frame" x="0.0" y="64" width="667" height="279"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="egB-jp-b0V">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="554"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egB-jp-b0V">
+                                        <rect key="frame" x="0.0" y="0.0" width="667" height="279"/>
                                     </scrollView>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zzZ-ay-HCy" customClass="LoadingIndicatorView" customModule="WebSnapshot" customModuleProvider="target">
-                                        <rect key="frame" x="157" y="247" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="60" id="EMG-Vg-PHN"/>
-                                            <constraint firstAttribute="width" constant="60" id="pQl-CX-ula"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="clockwise" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="roundedCorners" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="lerpColorMode" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="gradientRotateSpeed">
-                                                <real key="value" value="2"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="trackColor">
-                                                <color key="value" cocoaTouchSystemColor="darkTextColor"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="IBColor1">
-                                                <color key="value" red="0.58105844259999995" green="0.12855249639999999" blue="0.57453137639999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="IBColor2">
-                                                <color key="value" red="0.79939944727891155" green="0.80262297391891479" blue="0.99919450283050537" alpha="1" colorSpace="calibratedRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="color" keyPath="IBColor3">
-                                                <color key="value" red="0.58188301320000002" green="0.21569153669999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="zzZ-ay-HCy" firstAttribute="centerX" secondItem="i5H-UB-7iW" secondAttribute="centerX" id="4Mh-8m-A7L"/>
-                                    <constraint firstItem="zzZ-ay-HCy" firstAttribute="centerY" secondItem="i5H-UB-7iW" secondAttribute="centerY" id="5fS-fp-Q7G"/>
+                                    <constraint firstAttribute="trailing" secondItem="egB-jp-b0V" secondAttribute="trailing" id="0tH-VN-RCv"/>
+                                    <constraint firstItem="egB-jp-b0V" firstAttribute="leading" secondItem="i5H-UB-7iW" secondAttribute="leading" id="WT2-bb-4hS"/>
+                                    <constraint firstAttribute="bottom" secondItem="egB-jp-b0V" secondAttribute="bottom" id="cxM-xg-msK"/>
+                                    <constraint firstItem="egB-jp-b0V" firstAttribute="top" secondItem="i5H-UB-7iW" secondAttribute="top" id="izn-fl-IcY"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zzZ-ay-HCy" customClass="LoadingIndicatorView" customModule="WebSnapshot" customModuleProvider="target">
+                                <rect key="frame" x="303" y="157.5" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="EMG-Vg-PHN"/>
+                                    <constraint firstAttribute="width" constant="60" id="pQl-CX-ula"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clockwise" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="roundedCorners" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="lerpColorMode" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="gradientRotateSpeed">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="trackColor">
+                                        <color key="value" cocoaTouchSystemColor="darkTextColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="IBColor1">
+                                        <color key="value" red="0.58105844259999995" green="0.12855249639999999" blue="0.57453137639999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="IBColor2">
+                                        <color key="value" red="0.79939944727891155" green="0.80262297391891479" blue="0.99919450283050537" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="IBColor3">
+                                        <color key="value" red="0.58188301320000002" green="0.21569153669999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MBo-x3-EWB">
-                                <rect key="frame" x="0.0" y="21" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="21" width="667" height="44"/>
                                 <items>
                                     <barButtonItem width="10" style="plain" systemItem="fixedSpace" id="IWn-Cm-7jv"/>
                                     <barButtonItem image="capture" style="plain" id="Le5-4N-TWH">
@@ -74,7 +75,7 @@
                                     </barButtonItem>
                                     <barButtonItem width="800" style="plain" id="TYO-DU-dhU">
                                         <view key="customView" contentMode="scaleToFill" misplaced="YES" id="RCR-4Q-KSO">
-                                            <rect key="frame" x="55" y="7" width="275" height="30"/>
+                                            <rect key="frame" x="59" y="7" width="559" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="http://www.apple.com" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="aAu-pp-zmg">
@@ -87,8 +88,8 @@
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="aAu-pp-zmg" secondAttribute="trailing" id="H9q-Yr-yyb"/>
                                                 <constraint firstItem="aAu-pp-zmg" firstAttribute="top" secondItem="RCR-4Q-KSO" secondAttribute="top" id="IF0-yJ-WJN"/>
+                                                <constraint firstAttribute="trailing" secondItem="aAu-pp-zmg" secondAttribute="trailing" id="ap5-ea-Pmw"/>
                                                 <constraint firstItem="aAu-pp-zmg" firstAttribute="leading" secondItem="RCR-4Q-KSO" secondAttribute="leading" id="eiQ-07-KZk"/>
                                                 <constraint firstItem="aAu-pp-zmg" firstAttribute="height" secondItem="RCR-4Q-KSO" secondAttribute="height" id="iKo-AM-ctM"/>
                                             </constraints>
@@ -103,30 +104,27 @@
                                 </items>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="zzZ-ay-HCy" firstAttribute="centerX" secondItem="MBo-x3-EWB" secondAttribute="centerX" id="Bcc-sQ-wel"/>
                             <constraint firstItem="MBo-x3-EWB" firstAttribute="leading" secondItem="i5H-UB-7iW" secondAttribute="leading" id="Cn2-oo-i2f"/>
-                            <constraint firstAttribute="bottom" secondItem="i5H-UB-7iW" secondAttribute="bottom" id="IAl-tD-h8d"/>
+                            <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="i5H-UB-7iW" secondAttribute="bottom" id="dju-E1-xCs"/>
                             <constraint firstItem="i5H-UB-7iW" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" constant="64" id="ec4-WB-1LX"/>
                             <constraint firstItem="i5H-UB-7iW" firstAttribute="width" secondItem="tsR-hK-woN" secondAttribute="width" id="emR-gT-h9Z"/>
                             <constraint firstItem="MBo-x3-EWB" firstAttribute="bottom" secondItem="i5H-UB-7iW" secondAttribute="top" constant="1" id="gpx-b5-Fpq"/>
                             <constraint firstItem="MBo-x3-EWB" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="gtp-Fh-Gba"/>
                             <constraint firstItem="MBo-x3-EWB" firstAttribute="top" secondItem="tsR-hK-woN" secondAttribute="top" constant="21" id="o87-7h-GVd"/>
                             <constraint firstItem="MBo-x3-EWB" firstAttribute="trailing" secondItem="i5H-UB-7iW" secondAttribute="trailing" id="vMk-BY-vZd"/>
-                            <constraint firstItem="i5H-UB-7iW" firstAttribute="bottom" secondItem="4ug-Mw-9AY" secondAttribute="top" id="wHa-Og-Dxu"/>
+                            <constraint firstItem="zzZ-ay-HCy" firstAttribute="centerY" secondItem="tsR-hK-woN" secondAttribute="centerY" id="x4K-Av-2G2"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="IAl-tD-h8d"/>
-                            </mask>
-                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Web view" image="first" id="acW-dT-cKf" userLabel="web"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
-                    <size key="freeformSize" width="375" height="667"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="baseView" destination="egB-jp-b0V" id="Ohk-hR-dwS"/>
+                        <outlet property="captureView" destination="i5H-UB-7iW" id="0Wd-zH-dLI"/>
                         <outlet property="loading" destination="zzZ-ay-HCy" id="eOo-Zj-2mg"/>
                         <outlet property="urlBarButtonItem" destination="TYO-DU-dhU" id="spW-qx-SXv"/>
                         <outlet property="urlField" destination="aAu-pp-zmg" id="sQk-oC-g3d"/>
@@ -134,7 +132,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="747.5" y="-321.5"/>
+            <point key="canvasLocation" x="743.20000000000005" y="-324.28785607196403"/>
         </scene>
         <!--Snapshot List-->
         <scene sceneID="LOa-BT-iLd">
@@ -145,11 +143,11 @@
                         <viewControllerLayoutGuide type="bottom" id="jhG-Qw-ZFs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="soG-Mr-XhD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PnU-Xn-ybL">
-                                <rect key="frame" x="0.0" y="28" width="375" height="590"/>
+                                <rect key="frame" x="0.0" y="28" width="667" height="298"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nm2-0i-GtH">
@@ -196,7 +194,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" reuseIdentifier="HeaderTitle" id="p9K-dK-aNA">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="667" height="20"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="222" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Snapshot List" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k29-wD-xhw">
@@ -259,12 +257,12 @@
                         <viewControllerLayoutGuide type="bottom" id="qo0-kT-UJi"/>
                     </layoutGuides>
                     <view key="view" contentMode="center" id="UV9-sh-dmE">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="343"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fcb-DY-jNj">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="343"/>
+                                <color key="backgroundColor" red="0.79939944730000001" green="0.80262297390000004" blue="0.9991945028" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="delegate" destination="NIc-dC-Ima" id="O4D-El-owO"/>
                                 </connections>
@@ -315,7 +313,7 @@
                 <navigationController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="N8k-9F-Vw6" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="dw8-vt-1Yt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" id="dw8-vt-1Yt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -55,7 +55,7 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     }
     override func viewWillLayoutSubviews() {
         scrollView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        scrollView!.backgroundColor = UIColor.black
+        //scrollView!.backgroundColor = UIColor.black
         var minZoom = min(self.view.bounds.size.width / (imageView.image?.size.width)!, self.view.bounds.size.height / (imageView.image?.size.height)!)
 
         if minZoom > 1.0 {
@@ -101,9 +101,7 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
     }
-    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
-
-    }
+    
     func centerScrollViewContents(scrollView: UIScrollView) {
         let contentSize = scrollView.contentSize
         let scrollViewSize = scrollView.frame.size
@@ -134,15 +132,69 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
             }
         }
     }
+    
     // UIScrollViewDelegate
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        centerScrollViewContents(scrollView: scrollView)
+        let imgViewSize: CGSize! = self.imageView.frame.size
+        let imageSize: CGSize! = self.imageView.image?.size
+        var realImgSize: CGSize
+        if imageSize.width / imageSize.height > imgViewSize.width / imgViewSize.height {
+            realImgSize = CGSize(width: imgViewSize.width, height: imgViewSize.width / imageSize.width * imageSize.height)
+        } else {
+            realImgSize = CGSize(width: imgViewSize.height / imageSize.height * imageSize.width, height: imgViewSize.height)
+        }
+        var fr: CGRect = CGRect.zero
+        fr.size = realImgSize
+        self.imageView.frame = fr
+        
+        let scrSize: CGSize = scrollView.frame.size
+        let offx: CGFloat = (scrSize.width > realImgSize.width ? (scrSize.width - realImgSize.width) / 2 : 0)
+        let offy: CGFloat = (scrSize.height > realImgSize.height ? (scrSize.height - realImgSize.height) / 2 : 0)
+        scrollView.contentInset =  UIEdgeInsets(top:offy, left: offx, bottom: offy, right: offx)
+        
+        // The scroll view has zoomed, so you need to re-center the contents
+        let scrollViewSize: CGSize = self.scrollViewVisibleSize()
+        
+        // First assume that image center coincides with the contents box center.
+        // This is correct when the image is bigger than scrollView due to zoom
+        var imageCenter: CGPoint = CGPoint(x: self.scrollView.contentSize.width/2.0, y:
+            self.scrollView.contentSize.height/2.0)
+        
+        let scrollViewCenter: CGPoint = self.scrollViewCenter()
+        
+        //if image is smaller than the scrollView visible size - fix the image center accordingly
+        if self.scrollView.contentSize.width < scrollViewSize.width {
+            imageCenter.x = scrollViewCenter.x
+        }
+        
+        if self.scrollView.contentSize.height < scrollViewSize.height {
+            imageCenter.y = scrollViewCenter.y
+        }
+        
+        self.imageView.center = imageCenter
+        
     }
+    //return the scroll view center
+    func scrollViewCenter() -> CGPoint {
+        let scrollViewSize: CGSize = self.scrollViewVisibleSize()
+        return CGPoint(x: scrollViewSize.width/2.0, y: scrollViewSize.height/2.0)
+    }
+    // Return scrollview size without the area overlapping with tab and nav bar.
+    func scrollViewVisibleSize() -> CGSize {
+        
+        let contentInset: UIEdgeInsets = self.scrollView.contentInset
+        let scrollViewSize: CGSize = self.scrollView.bounds.standardized.size
+        let width: CGFloat = scrollViewSize.width - contentInset.left - contentInset.right
+        let height: CGFloat = scrollViewSize.height - contentInset.top - contentInset.bottom
+        return CGSize(width:width, height:height)
+    }
+    
     
     @IBAction func closeViewer() {
         dismiss(animated: true, completion: nil)
         
     }
+    
     @IBAction func promptDelete() {
         let alert = UIAlertController(title: "Confirm to delete this file?", message: "", preferredStyle: UIAlertControllerStyle.alert)
         
