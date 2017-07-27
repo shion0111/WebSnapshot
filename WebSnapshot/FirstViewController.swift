@@ -11,12 +11,13 @@ import UIKit
 import WebKit
 
 
-class FirstViewController: UIViewController, WKNavigationDelegate {
+class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var baseView: UIScrollView!//UIView!
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var loading: LoadingIndicatorView!
-    @IBOutlet weak var urlBarButtonItem: UIBarButtonItem!
+    
+    @IBOutlet weak var urlBar: UIToolbar! //ButtonItem: UIBarButtonItem!
     
     @IBOutlet weak var captureView: UIView!
 
@@ -28,7 +29,6 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.urlField.autoresizingMask = [.flexibleWidth]
         
         let config = WKWebViewConfiguration()
         let bounds = CGRect( x:self.view.bounds.origin.x, y:self.view.bounds.origin.y, width:baseView.bounds.width, height:baseView.bounds.height)
@@ -38,13 +38,8 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
         webview.navigationDelegate = self
         baseView.addSubview(webview)
         
-        let btnReload = UIButton(type: .custom)
-        btnReload.addTarget(self, action: #selector(self.loadURL), for:.touchUpInside)
-        btnReload.frame = CGRect(x: CGFloat(urlField.frame.size.width - 30), y: CGFloat(0), width: CGFloat(30), height: CGFloat(30))
-        let img = UIImage(named: "moveon")
-        btnReload.setImage(img, for: .normal)//setBackgroundImage(img, for: .normal)
-        urlField.rightViewMode = .always
-        urlField.rightView = btnReload
+        
+        rebuildToolbar(view.bounds.size)
         
         loading.isHidden = true
         
@@ -87,22 +82,51 @@ class FirstViewController: UIViewController, WKNavigationDelegate {
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        
+    
         super.viewWillTransition(to: size, with: coordinator)
         
         loading.setNeedsLayout()
         
         coordinator.animate(alongsideTransition: { _ in
-            
-            self.urlField.frame = CGRect(x:0, y:0, width:size.width - 95, height:self.urlField.frame.size.height)
+            //  rebuild toolbar by current view size
+            self.rebuildToolbar(size)
         }, completion: { _ in
-            
+
         }
             
         )
         
         
+    }
+    
+    func rebuildToolbar(_ size: CGSize) {
         
+        let url = self.urlField != nil ? self.urlField.text! : "https://www.apple.com"
+
+
+        //url = self.urlField.text ?? "https://www.apple.com"
+        
+        let f = CGRect(x:0, y:0, width:size.width - 120, height:30)
+        urlField = UITextField(frame: f)
+        urlField.delegate = self
+        urlField.borderStyle = .roundedRect
+        urlField.text = url
+        self.urlField.autoresizingMask = [.flexibleWidth]
+        
+        let btnReload = UIButton(type: .custom)
+        btnReload.addTarget(self, action: #selector(self.loadURL), for:.touchUpInside)
+        btnReload.frame = CGRect(x: CGFloat(urlField.frame.size.width - 30), y: CGFloat(0), width: CGFloat(30), height: CGFloat(30))
+        let img = UIImage(named: "moveon")
+        btnReload.setImage(img, for: .normal)//setBackgroundImage(img, for: .normal)
+        urlField.rightViewMode = .always
+        urlField.rightView = btnReload
+        
+        let urlbaritem = UIBarButtonItem(customView: self.urlField)
+        let backitem = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(FirstViewController.backward))
+        
+        let captureitem = UIBarButtonItem(image: UIImage(named: "capture"), style:.plain, target: self, action: #selector(FirstViewController.doCapture))
+        
+        self.urlBar.setItems([urlbaritem, backitem, captureitem], animated: false)
     }
     
     @IBAction func loadURL() {

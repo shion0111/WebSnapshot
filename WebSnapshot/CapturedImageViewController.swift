@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ImageIO
 
 class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
 
@@ -37,21 +38,7 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        do {
-            self.title = NSString(string: self.fileURL.absoluteString).lastPathComponent
-            let imagedata = try Data(contentsOf: self.fileURL)
-            imageView = UIImageView(image:UIImage(data: imagedata))
-
-
-            imageView.frame = CGRect(x: 0, y: 0, width: (imageView.image?.size.width)!, height: (imageView.image?.size.height)!)
-            imageView.contentMode = .center
-            scrollView!.addSubview(imageView)
-            imageView.isUserInteractionEnabled = false
-            
-            
-        } catch {
-            print("Error loading image : \(error)")
-        }
+        prepareImage()
     }
     override func viewWillLayoutSubviews() {
         scrollView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -84,6 +71,52 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
         } else {
             scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
         }
+    }
+    func prepareImage() {
+
+        //do {
+            self.title = NSString(string: self.fileURL.absoluteString).lastPathComponent
+            
+            
+            guard let src = CGImageSourceCreateWithURL(self.fileURL as CFURL, nil),
+                  let imageProperties = CGImageSourceCopyPropertiesAtIndex(src, 0, nil) as? [AnyHashable: Any],
+                  let pixelHeight = imageProperties[kCGImagePropertyPixelHeight as String]
+                
+                else {
+                    return
+            }
+
+            var height: CGFloat = 0
+            
+            CFNumberGetValue(pixelHeight as! CFNumber, .cgFloatType, &height)
+            
+            //if height > 7200 {
+                
+                let h = Float(height/UIScreen.main.scale)
+                let d: [NSObject:AnyObject] = [
+                    
+                    kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
+                    kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
+                    kCGImageSourceThumbnailMaxPixelSize: NSNumber(value: h)
+                ]
+            
+                let imref = CGImageSourceCreateThumbnailAtIndex(src, 0, d as CFDictionary)
+                
+                if imref != nil {
+                    imageView =  UIImageView(image:UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up))
+                    imageView.frame = CGRect(x: 0, y: 0, width: (imageView.image?.size.width)!, height: (imageView.image?.size.height)!)
+                    imageView.contentMode = .center
+                    scrollView!.addSubview(imageView)
+                    imageView.isUserInteractionEnabled = false
+                }
+                
+            //}
+            
+        //} catch {
+        //    print("Error loading image : \(error)")
+        //}
+        
+    
     }
     func setupGestureRecognizer() {
 
