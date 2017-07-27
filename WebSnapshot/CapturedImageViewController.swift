@@ -72,12 +72,32 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
             scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
         }
     }
+    func handleLongpress(recognizer: UILongPressGestureRecognizer) {
+        //  Longpress to save this picture to camera roll
+        
+        let alert = UIAlertController(title: "Save to camera roll?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { _ in
+            
+        }
+        let saveAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.destructive) { _ in
+            self.saveSnapshotToCameraroll()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(saveAction)
+        self.present(alert, animated: true, completion: nil)
+
+    }
+    func saveSnapshotToCameraroll() {
+        
+    }
     func prepareImage() {
 
         //do {
             self.title = NSString(string: self.fileURL.absoluteString).lastPathComponent
             
-            
+            //  get image properties by CGImageSource (PixelHeight)
             guard let src = CGImageSourceCreateWithURL(self.fileURL as CFURL, nil),
                   let imageProperties = CGImageSourceCopyPropertiesAtIndex(src, 0, nil) as? [AnyHashable: Any],
                   let pixelHeight = imageProperties[kCGImagePropertyPixelHeight as String]
@@ -87,10 +107,11 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
             }
 
             var height: CGFloat = 0
-            
             CFNumberGetValue(pixelHeight as! CFNumber, .cgFloatType, &height)
-            
-            //if height > 7200 {
+        
+            //  if this image is longer than 7200 pixel, we'll use a thumbnail to display instead
+            //  else load the file directly
+            if height > 7200 {
                 
                 let h = Float(height/UIScreen.main.scale)
                 let d: [NSObject:AnyObject] = [
@@ -104,37 +125,45 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
                 
                 if imref != nil {
                     imageView =  UIImageView(image:UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up))
-                    imageView.frame = CGRect(x: 0, y: 0, width: (imageView.image?.size.width)!, height: (imageView.image?.size.height)!)
-                    imageView.contentMode = .center
-                    scrollView!.addSubview(imageView)
-                    imageView.isUserInteractionEnabled = false
                 }
                 
-            //}
-            
-        //} catch {
-        //    print("Error loading image : \(error)")
-        //}
+            } else {
+                    let image = UIImage(contentsOfFile: fileURL.path)
+                    imageView = UIImageView(image: image)
+                
+            }
         
+        imageView.frame = CGRect(x: 0, y: 0, width: (imageView.image?.size.width)!, height: (imageView.image?.size.height)!)
+        imageView.contentMode = .center
+        scrollView!.addSubview(imageView)
+        imageView.isUserInteractionEnabled = false
+    
     
     }
     func setupGestureRecognizer() {
 
         scrollView.delegate = self
-
+        
+        //  singletap to dismiss navigation bar
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(CapturedImageViewController.handleHideBarTap(recognizer:)))
         singleTap.numberOfTapsRequired = 1
         scrollView.addGestureRecognizer(singleTap)
+        
+        //  doubletap to zoom-in, zoom-out
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(CapturedImageViewController.handleDoubleTap(recognizer:)))
         doubleTap.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(doubleTap)
+        
+        //  longpress to save to camera roll
+        let longpress = UILongPressGestureRecognizer(target: self, action: #selector(CapturedImageViewController.handleLongpress(recognizer:)))
+        scrollView.addGestureRecognizer(longpress)
         
         singleTap.require(toFail: doubleTap)
     }
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
     }
-    
+    //  zooming process
     func centerScrollViewContents(scrollView: UIScrollView) {
         let contentSize = scrollView.contentSize
         let scrollViewSize = scrollView.frame.size
@@ -182,7 +211,7 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
         
         let scrSize: CGSize = scrollView.frame.size
         let offx: CGFloat = (scrSize.width > realImgSize.width ? (scrSize.width - realImgSize.width) / 2 : 0)
-        let offy: CGFloat = 0//(scrSize.height > realImgSize.height ? (scrSize.height - realImgSize.height) / 2 : 0)
+        let offy: CGFloat = 0
         scrollView.contentInset =  UIEdgeInsets(top:offy, left: offx, bottom: offy, right: offx)
         
         // The scroll view has zoomed, so you need to re-center the contents
@@ -199,10 +228,6 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
         if self.scrollView.contentSize.width < scrollViewSize.width {
             imageCenter.x = scrollViewCenter.x
         }
-        
-        //if self.scrollView.contentSize.height < scrollViewSize.height {
-        //    imageCenter.y = scrollViewCenter.y
-        //}
         
         self.imageView.center = imageCenter
         
