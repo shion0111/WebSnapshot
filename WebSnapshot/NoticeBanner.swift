@@ -123,7 +123,7 @@ class NoticeBanner: UIView {
     
     
     
-    open func show(preaction:(() -> (Void))? = nil) {
+    open func show(preaction:(() -> (Void))? = nil, predismissaction:(() -> (Void))? = nil) {
         
         guard let view = NoticeBanner.currentWindow() else {
             print("[NoticeBanner]: Could not find view.")
@@ -139,12 +139,14 @@ class NoticeBanner: UIView {
             self.state = .displayed
         }, completion: { _ in
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(Int(1000.0 * 2))) {
+                if predismissaction != nil { predismissaction?() }
                 self.dismiss()
             }
         })
     }
     open func dismiss() {
         let (damping, velocity) = self.animationSpringVal
+        
         UIView.animate(withDuration: displayDuration, delay: 0.0, usingSpringWithDamping: CGFloat(damping), initialSpringVelocity: CGFloat(velocity), options: .allowUserInteraction, animations: {
             self.state = .hidden
             

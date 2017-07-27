@@ -8,6 +8,7 @@
 
 import UIKit
 import ImageIO
+import Photos
 
 class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
 
@@ -17,10 +18,13 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     var doubleTapGestureRecognizer: UITapGestureRecognizer!
     var fileURL: URL!
 
+    var notice: NoticeBanner!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = self.closeBtn
+        self.modalPresentationCapturesStatusBarAppearance = true
         setupGestureRecognizer()
     }
 
@@ -91,6 +95,39 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     }
     func saveSnapshotToCameraroll() {
         
+        PHPhotoLibrary.shared().performChanges({
+            // Request creating an asset from the image.
+            _ = PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: self.fileURL)
+    
+        }, completionHandler: { success, error in
+            if !success {
+                NSLog("error creating asset: \(String(describing: error))")
+            } else {
+            
+                DispatchQueue.main.async(execute: { 
+                    self.notice = NoticeBanner(message: "Snapshot saved to camera roll", dismissCallback:self.bannerDismissed)
+                    self.notice.bannerHeight = 80
+                    
+                    self.notice.show(preaction: { () -> (Void) in
+                        //  NOTE -- statusbar style is handled by navigationBar.barStyle //
+                        self.navigationController?.navigationBar.barStyle = .black
+                    }, predismissaction: { () -> (Void) in
+                        self.navigationController?.navigationBar.barStyle = .default })
+                
+
+                })
+            }
+        })
+        
+    }
+    func bannerDismissed() {
+        self.notice = nil
+        
+        self.navigationController?.navigationBar.barStyle = .default
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
     func prepareImage() {
 
