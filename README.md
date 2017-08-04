@@ -10,3 +10,8 @@ An app to capture a full snapshot of a WKWebView on iOS devices.
 ## Requirements
 - Xcode 8.0
 - Swift 3.0
+
+## Supports
+- Airdrop
+- Longpress to save to cameraroll
+
