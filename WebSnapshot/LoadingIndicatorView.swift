@@ -167,7 +167,7 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     }
     
     private func checkAndSetIBColors() {
-        let nonNilColors = [IBColor1, IBColor2, IBColor3].flatMap { $0 }
+        let nonNilColors = [IBColor1, IBColor2, IBColor3].compactMap { $0 }
         if !nonNilColors.isEmpty {
             set(colors: nonNilColors)
         }
@@ -403,14 +403,14 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
                     color = colorsArray[0]
                 } else {
                     // lerpColorMode is true
-                    let t = CGFloat(reducedAngle) / 360
+                    let t00 = CGFloat(reducedAngle) / 360
                     let steps = colorsArray.count - 1
                     let step = 1 / CGFloat(steps)
-                    for i in 1...steps {
-                        let fi = CGFloat(i)
-                        if t <= fi * step || i == steps {
-                            let colorT = Utility.inverseLerp(value: t, minMax: ((fi - 1) * step, fi * step))
-                            color = Utility.colorLerp(value: colorT, minMax: (colorsArray[i - 1], colorsArray[i]))
+                    for i00 in 1...steps {
+                        let fi0 = CGFloat(i00)
+                        if t00 <= fi0 * step || i00 == steps {
+                            let colorT = Utility.inverseLerp(value: t00, minMax: ((fi0 - 1) * step, fi0 * step))
+                            color = Utility.colorLerp(value: colorT, minMax: (colorsArray[i00 - 1], colorsArray[i00]))
                             break
                         }
                     }

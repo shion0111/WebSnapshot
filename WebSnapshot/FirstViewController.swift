@@ -16,11 +16,14 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
     @IBOutlet weak var baseView: UIScrollView!//UIView!
     @IBOutlet weak var urlField: UITextField!
     @IBOutlet weak var loading: LoadingIndicatorView!
+    @IBOutlet weak var captureitem: UIButton?
+    @IBOutlet weak var backitem: UIButton?
     
-    @IBOutlet weak var urlBar: UIToolbar! //ButtonItem: UIBarButtonItem!
+    @IBOutlet weak var urlBar: UIView? //ButtonItem: UIBarButtonItem!
     
     @IBOutlet weak var captureView: UIView!
 
+    @IBOutlet var capturelist: UIView?    
     
     var webview: WKWebView!
     var bSize: CGSize = CGSize.zero
@@ -54,12 +57,23 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
     override var prefersStatusBarHidden: Bool {
         return false
     }
-    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        
+        print(error.localizedDescription)
+    }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         //let contentSize = webview.scrollView.contentSize
         webview.scrollView.contentOffset = CGPoint(x:0, y:0)
         self.bSize = baseView.frame.size
         self.urlField.text = webview.url?.absoluteString
+    }
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        print(navigation ?? "")
+    }
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        
+        print(navigationResponse)
+        decisionHandler(.allow)
     }
     
     func getCurrentDateTickAsFilename() -> String {
@@ -106,12 +120,12 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
 
         //url = self.urlField.text ?? "https://www.apple.com"
         
-        let f = CGRect(x:0, y:0, width:size.width - 120, height:30)
-        urlField = UITextField(frame: f)
+        //let f00 = CGRect(x:0, y:0, width:size.width - 120, height:30)
+        //urlField.frame = f00//UITextField(frame: f)
         urlField.delegate = self
         urlField.borderStyle = .roundedRect
         urlField.text = url
-        self.urlField.autoresizingMask = [.flexibleWidth]
+        //self.urlField.autoresizingMask = [.flexibleWidth]
         
         let btnReload = UIButton(type: .custom)
         btnReload.addTarget(self, action: #selector(self.loadURL), for:.touchUpInside)
@@ -121,28 +135,28 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
         urlField.rightViewMode = .always
         urlField.rightView = btnReload
         
-        let urlbaritem = UIBarButtonItem(customView: self.urlField)
-        let backitem = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(FirstViewController.backward))
+//        let urlbaritem = UIBarButtonItem(customView: self.urlField)
+//        let backitem = UIBarButtonItem(barButtonSystemItem: .rewind, target: self, action: #selector(FirstViewController.backward))
+//
+//        let captureitem = UIBarButtonItem(image: UIImage(named: "capture"), style:.plain, target: self, action: #selector(FirstViewController.doCapture))
         
-        let captureitem = UIBarButtonItem(image: UIImage(named: "capture"), style:.plain, target: self, action: #selector(FirstViewController.doCapture))
-        
-        self.urlBar.setItems([urlbaritem, backitem, captureitem], animated: false)
+        //self.urlBar.setItems([urlbaritem, backitem, captureitem], animated: false)
     }
     
     @IBAction func loadURL() {
         
         self.view.endEditing(true)
         if urlField.text?.isEmpty == true {
-            urlField.text = "http://www.apple.com"
+            urlField.text = "https://www.apple.com"
         }
         
         if (!(urlField.text?.hasPrefix("http://"))!) && (!(urlField.text?.hasPrefix("https://"))!) {
-            let s = urlField.text
-            urlField.text = "http://".appending(s!)
+            let s00 = urlField.text
+            urlField.text = "http://".appending(s00!)
         }
         
-        guard let u = URL(string: urlField.text!) else { return }
-        let request0 = URLRequest(url: u)
+        guard let u00 = URL(string: urlField.text!) else { return }
+        let request0 = URLRequest(url: u00)
         guard webview.load(request0) != nil else {
             print("unable to load")
             return
@@ -184,7 +198,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
         
         delay(0.5) {
             
-            if UIApplication.shared.applicationState != UIApplicationState.active {
+            if UIApplication.shared.applicationState != UIApplication.State.active {
                 
                 self.webview.frame = CGRect(x:0, y:0, width:self.baseView.frame.size.width, height:self.captureView.frame.size.height)
                 self.webview.scrollView.contentOffset =  CGPoint.zero
@@ -226,7 +240,7 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
         let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
         let thumburl = URL(fileURLWithPath: "\(paths[0])/\(filename).thumb")
         
-        let data = UIImageJPEGRepresentation(thumb!, 1.0)
+        let data = thumb!.jpegData(compressionQuality: 1.0)
         do {
             try data?.write(to: thumburl)
         } catch let error {
@@ -235,31 +249,12 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
         
         
     }
-    /*
-     extension UIView {
-     func capture() -> UIImage? {
-     var image: UIImage?
-     
-     if #available(iOS 10.0, *) {
-     let format = UIGraphicsImageRendererFormat()
-     format.opaque = isOpaque
-     let renderer = UIGraphicsImageRenderer(size: frame.size, format: format)
-     image = renderer.image { context in
-     drawHierarchy(in: frame, afterScreenUpdates: true)
-     }
-     } else {
-     UIGraphicsBeginImageContextWithOptions(frame.size, isOpaque, UIScreen.main.scale)
-     drawHierarchy(in: frame, afterScreenUpdates: true)
-     image = UIGraphicsGetImageFromCurrentImageContext()
-     UIGraphicsEndImageContext()
-     }
-     
-     return image
-     }
-     }
-     */
+    
     @IBAction func doCapture() {
-        
+        captureImage()
+    }
+    
+    @IBAction func captureImage() {
         self.bSize = baseView.frame.size
         let contentSize = webview.scrollView.contentSize
         var frame = webview.frame
@@ -280,16 +275,16 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
             
             //  restore the superview
             if !moveon {
-                var ff = self.baseView.frame
-                ff.size = self.bSize
-                ff.origin.y = 0
-                self.baseView.frame = ff
-                ff = self.webview.frame
-                ff.size = self.bSize
-                self.webview.frame = ff
+                var ff0 = self.baseView.frame
+                ff0.size = self.bSize
+                ff0.origin.y = 0
+                self.baseView.frame = ff0
+                ff0 = self.webview.frame
+                ff0.size = self.bSize
+                self.webview.frame = ff0
             }
             
-            if image != nil {
+            if let image = image, let data = image.jpegData(compressionQuality: 1.0) {
                 // Create path
                 let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
                 let filename = self.getCurrentDateTickAsFilename()
@@ -298,18 +293,18 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
                 let fileurl = URL(fileURLWithPath: filepath)
                 
                 
-                let data = UIImageJPEGRepresentation(image!, 1.0)
+                
                 do {
                     // Save image
-                    try data?.write(to: fileurl)
+                    try  data.write(to: fileurl, options:[.atomic])
                     
                     // save a thumbnail in Cache
-                    let size: CGSize! = image?.size
-                    let cgimage = image?.cgImage
+                    let size: CGSize! = image.size
+                    let cgimage = image.cgImage
                     let rect = CGRect(x: 0, y: (size.height-size.width)/2, width: size.width, height: size.width)
                     let thumbRef = cgimage?.cropping(to:rect)
-                    let i0 = UIImage(cgImage:thumbRef!)
-                    self.saveThumbnailToCache(i0, filename)
+                    let i00 = UIImage(cgImage:thumbRef!)
+                    self.saveThumbnailToCache(i00, filename)
                     
                     
                     self.notice = NoticeBanner(message: "Snapshot saved at \(filename).jpg", dismissCallback:self.bannerDismissed)
@@ -344,4 +339,57 @@ class FirstViewController: UIViewController, WKNavigationDelegate, UITextFieldDe
             self.urlField.text = self.webview.url?.absoluteString
         }
     }
+    
+    
+    
+    @available(*, deprecated)  private func generatePDF() {//-> Data {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let filename = self.getCurrentDateTickAsFilename()
+        let filepath = "\(paths[0])/\(filename).pdf"
+        print("pdfCapture -- \(filepath)")
+        let fileurl = URL(fileURLWithPath: filepath)
+        
+        
+        // assign the print formatter to the print page renderer
+        let renderer = UIPrintPageRenderer()
+        let printFormatter = self.webview.viewPrintFormatter()
+        renderer.addPrintFormatter(printFormatter, startingAtPageAt: 0)
+        //let contentSize = webview.scrollView.contentSize
+        // assign paperRect and printableRect values
+        
+        // let page = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width*UIScreen.main.scale, height: 2100)
+        let page0 = CGRect(x: 0, y: 0, width: 595.2, height: 841.8)// A4, 72 dpi
+        let page = CGRect(x: 8, y: 8, width: 595.2-16, height: 841.8-16)// A4, 72 dpi
+        //let page0 = CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height*0.5)
+        //let page = CGRect(x: 0, y: 0, width: contentSize.width-16, height: contentSize.height*0.5)// A5
+        renderer.setValue(page0, forKey: "paperRect")
+        renderer.setValue(page, forKey: "printableRect")
+        
+        
+        // create pdf context and draw each page
+        //let pdfData = NSMutableData()
+        //UIGraphicsBeginPDFContextToData(pdfData, .zero, nil)
+        UIGraphicsBeginPDFContextToFile(fileurl.path, page0, [:])
+        //let ht = 841.8-16
+        for i00 in 0..<renderer.numberOfPages {
+            //UIGraphicsBeginPDFPageWithInfo(CGRect(x: 8, y: 8+ht*Double(i00), width: 595.2-16, height: 841.8-16), nil)
+            UIGraphicsBeginPDFPage()
+            renderer.drawPage(at: i00, in: UIGraphicsGetPDFContextBounds())
+            
+        }
+        
+        UIGraphicsEndPDFContext()
+        
+        //        do {
+        //            try pdfData.write(to: fileurl, options: .atomic)
+        //        } catch let error {
+        //            print(error)
+        //        }
+        
+        //return pdfData as Data
+    }
+    @available(*, deprecated) @IBAction func capturePDFToImage() {
+        self.generatePDF()
+    }
+    
 }

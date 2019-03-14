@@ -62,29 +62,29 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
         super.viewDidLayoutSubviews()
         centerScrollViewContents(scrollView: scrollView)
     }
-    func handleHideBarTap(recognizer: UITapGestureRecognizer) {
+    @objc func handleHideBarTap(recognizer: UITapGestureRecognizer) {
         if (self.navigationController?.isNavigationBarHidden)! {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         } else {
             self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
     }
-    func handleDoubleTap(recognizer: UITapGestureRecognizer) {
+    @objc func handleDoubleTap(recognizer: UITapGestureRecognizer) {
         if scrollView.zoomScale > scrollView.minimumZoomScale {
             scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
         } else {
             scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
         }
     }
-    func handleLongpress(recognizer: UILongPressGestureRecognizer) {
+    @objc func handleLongpress(recognizer: UILongPressGestureRecognizer) {
         //  Longpress to save this picture to camera roll
         
-        let alert = UIAlertController(title: "Save to camera roll?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Save to camera roll?", message: "", preferredStyle: UIAlertController.Style.alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { _ in
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) { _ in
             
         }
-        let saveAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.destructive) { _ in
+        let saveAction = UIAlertAction(title: "Ok", style: UIAlertAction.Style.destructive) { _ in
             self.saveSnapshotToCameraroll()
         }
         
@@ -137,31 +137,32 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
             //  get image properties by CGImageSource (PixelHeight)
             guard let src = CGImageSourceCreateWithURL(self.fileURL as CFURL, nil),
                   let imageProperties = CGImageSourceCopyPropertiesAtIndex(src, 0, nil) as? [AnyHashable: Any],
-                  let pixelHeight = imageProperties[kCGImagePropertyPixelHeight as String]
+                  let pixelHeight = imageProperties[kCGImagePropertyPixelHeight as String] as? CGFloat
                 
                 else {
                     return
             }
 
-            var height: CGFloat = 0
-            CFNumberGetValue(pixelHeight as! CFNumber, .cgFloatType, &height)
+            //let height: CGFloat = pixelHeight
+        
+            //CFNumberGetValue(pixelHeight as! CFNumber, .cgFloatType, &height)
         
             //  if this image is longer than 7200 pixel, we'll use a thumbnail to display instead
             //  else load the file directly
-            if height > 7200 {
+            if pixelHeight > 7200 {
                 
-                let h = Float(height/UIScreen.main.scale)
-                let d: [NSObject:AnyObject] = [
+                let h00 = Float(pixelHeight/UIScreen.main.scale)
+                let d00: [NSObject:AnyObject] = [
                     
                     kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
                     kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
-                    kCGImageSourceThumbnailMaxPixelSize: NSNumber(value: h)
+                    kCGImageSourceThumbnailMaxPixelSize: NSNumber(value: h00)
                 ]
             
-                let imref = CGImageSourceCreateThumbnailAtIndex(src, 0, d as CFDictionary)
+                let imref = CGImageSourceCreateThumbnailAtIndex(src, 0, d00 as CFDictionary)
                 
                 if imref != nil {
-                    imageView =  UIImageView(image:UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up))
+                    imageView =  UIImageView(image:UIImage(cgImage: imref!, scale: 1, orientation: UIImage.Orientation.up))
                 }
                 
             } else {
@@ -291,12 +292,12 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     }
     
     @IBAction func promptDelete() {
-        let alert = UIAlertController(title: "Confirm to delete this file?", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Confirm to delete this file?", message: "", preferredStyle: UIAlertController.Style.alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) { (_ : UIAlertAction) -> Void in
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel) { (_ : UIAlertAction) -> Void in
             
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.destructive) { (_ : UIAlertAction) -> Void in
+        let deleteAction = UIAlertAction(title: "Delete", style: UIAlertAction.Style.destructive) { (_ : UIAlertAction) -> Void in
             let manager = FileManager.default
             do {
                 try manager.removeItem(at: self.fileURL)
@@ -315,10 +316,10 @@ class CapturedImageViewController: UIViewController, UIScrollViewDelegate {
     @IBAction func activityViewAction() {
         
         // set up activity view controller
-        let activityViewController = UIActivityViewController(activityItems: ["Saved snapshot", self.fileURL], applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: ["Saved snapshot", self.fileURL ?? ""], applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         
-        activityViewController.excludedActivityTypes = [ UIActivityType.postToFacebook ]
+        activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.postToFacebook ]
         
         // present the view controller
         self.present(activityViewController, animated: true, completion: nil)

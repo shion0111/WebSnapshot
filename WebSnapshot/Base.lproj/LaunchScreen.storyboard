@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="17A315i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment version="4352" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,17 +21,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launchtitle" highlightedImage="Launchtitle" translatesAutoresizingMaskIntoConstraints="NO" id="qLe-PU-s2t">
-                                <rect key="frame" x="107" y="253" width="160" height="160"/>
+                            <imageView opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="Launchtitle" highlightedImage="Launchtitle" translatesAutoresizingMaskIntoConstraints="NO" id="qLe-PU-s2t">
+                                <rect key="frame" x="75" y="0.0" width="300" height="360"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.2653326392" green="0.056481100620000002" blue="0.31033760310000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" notEnabled="YES"/>
                         </accessibility>
                         <constraints>
-                            <constraint firstItem="qLe-PU-s2t" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="DWu-v9-AhS"/>
-                            <constraint firstItem="qLe-PU-s2t" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="KZ1-Mh-o78"/>
+                            <constraint firstAttribute="trailing" secondItem="qLe-PU-s2t" secondAttribute="trailing" id="0Ch-wC-Vsl"/>
+                            <constraint firstItem="qLe-PU-s2t" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="XYC-PJ-Pz2"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -44,6 +44,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Launchtitle" width="160" height="160"/>
+        <image name="Launchtitle" width="300" height="360"/>
     </resources>
 </document>

@@ -62,13 +62,13 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
                                                    in: .userDomainMask, appropriateFor: nil, create: false)
             if let urlArray = try? fileManager.contentsOfDirectory(at: documentsURL, includingPropertiesForKeys: [.contentModificationDateKey],
                                                                            options:.skipsHiddenFiles) {
-                let m = urlArray.map { url in
+                let moo = urlArray.map { url in
                     (url.path, (try? url.resourceValues(forKeys: [.contentModificationDateKey]))?.contentModificationDate ?? Date.distantPast)
                     }
                     .sorted(by: { $0.1 < $1.1 }) // sort ascending modification dates
                     .map { $0.0 } // extract file names
                 
-                for case let path in m {
+                for case let path in moo {
                     let fileURL = URL(fileURLWithPath: path)
                     let resourceValues = try fileURL.resourceValues(forKeys: Set(resourceKeys))
                     if !(resourceValues.isDirectory!) && (fileURL.pathExtension.lowercased() == "jpg") {
@@ -112,16 +112,16 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
             // Generating reasonably sized thumbnails by CGImageSource
             let src = CGImageSourceCreateWithURL(url as CFURL, nil)
             
-            let d: [NSObject:AnyObject] = [
+            let doo: [NSObject:AnyObject] = [
             
                 kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
                 kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
                 kCGImageSourceThumbnailMaxPixelSize: NSNumber(value: 1024)
                 ]
-            let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, d as CFDictionary)
+            let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, doo as CFDictionary)
             
             if imref != nil {
-                cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImageOrientation.up)
+                cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImage.Orientation.up)
             }
         }
         return cell
@@ -130,10 +130,11 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
         
         let header: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "HeaderTitle", for: indexPath)
         
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            let name = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String
-            let title = header.viewWithTag(222) as? UILabel!
-            title?.text = "| \u{00A9} 2017 Antelis Wu | "+name!+" "+version+" |"
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            let name = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String,
+            let title = header.viewWithTag(222) as? UILabel {
+            
+            title.text = "| \u{00A9} 2017 Antelis Wu | "+name+" "+version+" |"
         }
         
         return header

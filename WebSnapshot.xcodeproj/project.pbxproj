@@ -16,6 +16,9 @@
 		CB0577341EA49D47005EC17D /* SnapshotlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0577331EA49D47005EC17D /* SnapshotlistViewController.swift */; };
 		CB35D3431EAFB825004DC4BC /* WebviewScreenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB35D3421EAFB825004DC4BC /* WebviewScreenshot.swift */; };
 		CB53DFC61F13E7E20089EC20 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB53DFC51F13E7E20089EC20 /* LoadingIndicatorView.swift */; };
+		CBBA90B82039ED0D00EF5ABB /* QRCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBA90B72039ED0D00EF5ABB /* QRCodeScannerViewController.swift */; };
+		CBBA90BB2039ED6F00EF5ABB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBBA90BA2039ED6F00EF5ABB /* AVFoundation.framework */; };
+		CBBA90BD2039ED8900EF5ABB /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBBA90BC2039ED8900EF5ABB /* Vision.framework */; };
 		CBD5ACE41ED834710012AC44 /* CapturedImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD5ACE31ED834710012AC44 /* CapturedImageViewController.swift */; };
 		CBF90FF71F2875C600B48802 /* NoticeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF90FF61F2875C600B48802 /* NoticeBanner.swift */; };
 /* End PBXBuildFile section */
@@ -33,6 +36,9 @@
 		CB35D3421EAFB825004DC4BC /* WebviewScreenshot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebviewScreenshot.swift; sourceTree = "<group>"; };
 		CB53DFC51F13E7E20089EC20 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		CB7821D91F041E38008A092B /* ScrollCatch-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ScrollCatch-Bridging-Header.h"; sourceTree = "<group>"; };
+		CBBA90B72039ED0D00EF5ABB /* QRCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewController.swift; sourceTree = "<group>"; };
+		CBBA90BA2039ED6F00EF5ABB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		CBBA90BC2039ED8900EF5ABB /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
 		CBD5ACE31ED834710012AC44 /* CapturedImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CapturedImageViewController.swift; sourceTree = "<group>"; };
 		CBF90FF61F2875C600B48802 /* NoticeBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeBanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -42,6 +48,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBBA90BD2039ED8900EF5ABB /* Vision.framework in Frameworks */,
+				CBBA90BB2039ED6F00EF5ABB /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +61,7 @@
 			children = (
 				84FDB4AF1E8CDCDC009CD024 /* WebSnapshot */,
 				84FDB4AE1E8CDCDC009CD024 /* Products */,
+				CBBA90B92039ED6F00EF5ABB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -80,8 +89,18 @@
 				CBD5ACE31ED834710012AC44 /* CapturedImageViewController.swift */,
 				CB53DFC51F13E7E20089EC20 /* LoadingIndicatorView.swift */,
 				CBF90FF61F2875C600B48802 /* NoticeBanner.swift */,
+				CBBA90B72039ED0D00EF5ABB /* QRCodeScannerViewController.swift */,
 			);
 			path = WebSnapshot;
+			sourceTree = "<group>";
+		};
+		CBBA90B92039ED6F00EF5ABB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CBBA90BC2039ED8900EF5ABB /* Vision.framework */,
+				CBBA90BA2039ED6F00EF5ABB /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,7 +131,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = shion;
 				TargetAttributes = {
 					84FDB4AC1E8CDCDC009CD024 = {
@@ -182,6 +201,7 @@
 				CBF90FF71F2875C600B48802 /* NoticeBanner.swift in Sources */,
 				CB35D3431EAFB825004DC4BC /* WebviewScreenshot.swift in Sources */,
 				84FDB4B31E8CDCDC009CD024 /* FirstViewController.swift in Sources */,
+				CBBA90B82039ED0D00EF5ABB /* QRCodeScannerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,12 +239,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -272,12 +294,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -317,7 +341,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = WebSnapshot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shion.ScrollCatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -325,7 +349,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "WebSnapshot/ScrollCatch-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -340,14 +364,14 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = WebSnapshot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shion.ScrollCatch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "WebSnapshot/ScrollCatch-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
