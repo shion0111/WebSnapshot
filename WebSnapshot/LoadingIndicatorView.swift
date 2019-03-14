@@ -69,15 +69,20 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         }
     }
     
-    private var progressLayer: LoadingIndicatorViewLayer {
+    private var progressLayer: LoadingIndicatorViewLayer? {
         get {
-            return layer as! LoadingIndicatorViewLayer
+            if let layer = layer as? LoadingIndicatorViewLayer {
+                return layer
+            }
+            return nil
         }
     }
     
     private var radius: CGFloat = 0 {
         didSet {
-            progressLayer.radius = radius
+            if let p = progressLayer {
+                p.radius = radius
+            }
         }
     }
     
@@ -88,7 +93,9 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     
     @IBInspectable public var gradientRotateSpeed: CGFloat = 0 {
         didSet {
-            progressLayer.gradientRotateSpeed = gradientRotateSpeed
+            if let p = progressLayer {
+                p.gradientRotateSpeed = gradientRotateSpeed
+            }
         }
     }
     
@@ -100,7 +107,10 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     
     public var progressColors: [UIColor] {
         get {
-            return progressLayer.colorsArray
+            if let p = progressLayer {
+                return p.colorsArray
+            }
+            return []
         }
         
         set {
@@ -155,15 +165,17 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     }
     
     private func refreshValues() {
-        progressLayer.angle = 0
-        progressLayer.clockwise = clockwise
-        progressLayer.roundedCorners = roundedCorners
-        progressLayer.lerpColorMode = lerpColorMode
-        progressLayer.gradientRotateSpeed = gradientRotateSpeed
-        progressLayer.glowMode = glowMode
-        progressLayer.progressThickness = progressThickness/2
-        progressLayer.trackColor = trackColor
-        progressLayer.trackThickness = trackThickness/2
+        if let progressLayer = progressLayer {
+            progressLayer.angle = 0
+            progressLayer.clockwise = clockwise
+            progressLayer.roundedCorners = roundedCorners
+            progressLayer.lerpColorMode = lerpColorMode
+            progressLayer.gradientRotateSpeed = gradientRotateSpeed
+            progressLayer.glowMode = glowMode
+            progressLayer.progressThickness = progressThickness/2
+            progressLayer.trackColor = trackColor
+            progressLayer.trackThickness = trackThickness/2
+        }
     }
     
     private func checkAndSetIBColors() {
@@ -178,8 +190,10 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     }
     
     private func set(colors: [UIColor]) {
-        progressLayer.colorsArray = colors
-        progressLayer.setNeedsDisplay()
+        if let progressLayer = progressLayer {
+            progressLayer.colorsArray = colors
+            progressLayer.setNeedsDisplay()
+        }
     }
     
     public func startAnimation() {
@@ -208,21 +222,29 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         animation.delegate = self
         animation.isRemovedOnCompletion = false
         animationCompletionBlock = completion
-        
-        progressLayer.add(animation, forKey: "angle")
+        if let progressLayer = progressLayer {
+            progressLayer.add(animation, forKey: "angle")
+        }
     }
     
     public func pauseAnimation() {
-        
-        progressLayer.removeAllAnimations()
+        if let progressLayer = progressLayer {
+            progressLayer.removeAllAnimations()
+        }
     }
     
     public func stopAnimation() {
-        progressLayer.removeAllAnimations()
+        if let progressLayer = progressLayer {
+            progressLayer.removeAllAnimations()
+        }
     }
     
     public func isAnimating() -> Bool {
-        return progressLayer.animation(forKey: "angle") != nil
+        if let progressLayer = progressLayer {
+            return progressLayer.animation(forKey: "angle") != nil
+        }
+        
+        return false
     }
     
     public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -233,7 +255,7 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
     }
     
     public override func didMoveToWindow() {
-        if let window = window {
+        if let window = window, let progressLayer = progressLayer {
             progressLayer.contentsScale = window.screen.scale
         }
     }
@@ -248,7 +270,9 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         setInitialValues()
         refreshValues()
         checkAndSetIBColors()
-        progressLayer.setNeedsDisplay()
+        if let progressLayer = progressLayer {
+            progressLayer.setNeedsDisplay()
+        }
     }
     
     private class LoadingIndicatorViewLayer: CALayer {
@@ -308,20 +332,21 @@ public class LoadingIndicatorView: UIView, CAAnimationDelegate {
         
         override init(layer: Any) {
             super.init(layer: layer)
-            let progressLayer = layer as! LoadingIndicatorViewLayer
-            radius = progressLayer.radius
-            angle = progressLayer.angle
-            startAngle = progressLayer.startAngle
-            clockwise = progressLayer.clockwise
-            roundedCorners = progressLayer.roundedCorners
-            lerpColorMode = progressLayer.lerpColorMode
-            gradientRotateSpeed = progressLayer.gradientRotateSpeed
-            glowMode = progressLayer.glowMode
-            progressThickness = progressLayer.progressThickness
-            trackThickness = progressLayer.trackThickness
-            trackColor = progressLayer.trackColor
-            colorsArray = progressLayer.colorsArray
-            progressInsideFillColor = progressLayer.progressInsideFillColor
+            if let progressLayer = layer as? LoadingIndicatorViewLayer {
+                radius = progressLayer.radius
+                angle = progressLayer.angle
+                startAngle = progressLayer.startAngle
+                clockwise = progressLayer.clockwise
+                roundedCorners = progressLayer.roundedCorners
+                lerpColorMode = progressLayer.lerpColorMode
+                gradientRotateSpeed = progressLayer.gradientRotateSpeed
+                glowMode = progressLayer.glowMode
+                progressThickness = progressLayer.progressThickness
+                trackThickness = progressLayer.trackThickness
+                trackColor = progressLayer.trackColor
+                colorsArray = progressLayer.colorsArray
+                progressInsideFillColor = progressLayer.progressInsideFillColor
+            }
         }
         
         override init() {

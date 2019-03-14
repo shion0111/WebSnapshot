@@ -37,7 +37,7 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
 
         super.viewWillAppear(animated)
         
-        let layout = self.snapshotListView.collectionViewLayout as! UICollectionViewFlowLayout
+        guard let layout = self.snapshotListView.collectionViewLayout as? UICollectionViewFlowLayout else {return}
         layout.headerReferenceSize = CGSize(width: 300, height: 20)
         layout.sectionHeadersPinToVisibleBounds = true
         capturedIMGs = listFilesAt(path: "")
@@ -96,35 +96,39 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! SnapshotImageViewCell
-        cell.layer.borderWidth = 0.25
-        cell.layer.borderColor = UIColor.lightGray.cgColor
-        
-        let fileName = NSString(string: capturedIMGs[indexPath.row].absoluteString).lastPathComponent
-        cell.caption.text = fileName
-        
-        let url = capturedIMGs[indexPath.row]
-        
-        // try get thumbnail in Cache
-        if let thumbRUL = getThumbnailURL(url.path) {
-            cell.image.image = UIImage(contentsOfFile: thumbRUL.path)
-        } else {
-            // Generating reasonably sized thumbnails by CGImageSource
-            let src = CGImageSourceCreateWithURL(url as CFURL, nil)
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as? SnapshotImageViewCell {
+            cell.layer.borderWidth = 0.25
+            cell.layer.borderColor = UIColor.lightGray.cgColor
             
-            let doo: [NSObject:AnyObject] = [
+            let fileName = NSString(string: capturedIMGs[indexPath.row].absoluteString).lastPathComponent
+            cell.caption.text = fileName
             
-                kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
-                kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
-                kCGImageSourceThumbnailMaxPixelSize: NSNumber(value: 1024)
-                ]
-            let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, doo as CFDictionary)
+            let url = capturedIMGs[indexPath.row]
             
-            if imref != nil {
-                cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImage.Orientation.up)
+            // try get thumbnail in Cache
+            if let thumbRUL = getThumbnailURL(url.path) {
+                cell.image.image = UIImage(contentsOfFile: thumbRUL.path)
+            } else {
+                // Generating reasonably sized thumbnails by CGImageSource
+                let src = CGImageSourceCreateWithURL(url as CFURL, nil)
+                
+                let doo: [NSObject:AnyObject] = [
+                
+                    kCGImageSourceCreateThumbnailWithTransform: true as AnyObject,
+                    kCGImageSourceCreateThumbnailFromImageIfAbsent: true as AnyObject,
+                    kCGImageSourceThumbnailMaxPixelSize: NSNumber(value: 1024)
+                    ]
+                let imref = CGImageSourceCreateThumbnailAtIndex(src!, 0, doo as CFDictionary)
+                
+                if imref != nil {
+                    cell.image.image = UIImage(cgImage: imref!, scale: 1, orientation: UIImage.Orientation.up)
+                }
             }
+            return cell
         }
-        return cell
+        
+        
+        return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     }
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
@@ -154,8 +158,8 @@ class SnapshotlistViewController: UIViewController, UICollectionViewDelegate, UI
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     //override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
         print(segue.identifier ?? "no value")
-        if segue.identifier == "viewSnapshot" {
-            let indexPath = snapshotListView.indexPath(for: sender as! UICollectionViewCell)
+        if segue.identifier == "viewSnapshot", let sender = sender as? UICollectionViewCell {
+            let indexPath = snapshotListView.indexPath(for: sender)
             let fileUrl = capturedIMGs[(indexPath?.row)!]
 
             let navController = segue.destination as? UINavigationController
